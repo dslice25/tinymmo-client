@@ -1,0 +1,656 @@
+[gd_scene load_steps=16 format=1]
+
+[ext_resource path="res://Character.gd" type="Script" id=1]
+[ext_resource path="res://client_data/Universal-LPC-spritesheet/body/male/light.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+
+resource/name = "slash_east"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 196, 197, 198, 199, 200, 195 ]
+}
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "slash_north"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 156, 157, 158, 159, 160, 161, 156 ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "slash_south"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 183, 184, 185, 186, 187, 187, 182 ]
+}
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "slash_west"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 170, 171, 172, 173, 174, 169 ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource/name = "wait_east"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 143 ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource/name = "wait_north"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 104 ]
+}
+
+[sub_resource type="Animation" id=7]
+
+resource/name = "wait_south"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 130 ]
+}
+
+[sub_resource type="Animation" id=8]
+
+resource/name = "wait_west"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 117 ]
+}
+
+[sub_resource type="Animation" id=9]
+
+length = 0.7
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 144, 145, 146, 147, 148, 149, 150 ]
+}
+
+[sub_resource type="Animation" id=10]
+
+length = 0.7
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 105, 106, 107, 108, 109, 110, 111 ]
+}
+
+[sub_resource type="Animation" id=11]
+
+length = 0.7
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 131, 132, 133, 134, 135, 136, 137 ]
+}
+
+[sub_resource type="Animation" id=12]
+
+length = 0.7
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 118, 119, 120, 121, 122, 123, 124, 125 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=13]
+
+custom_solver_bias = 0.0
+radius = 7.88237
+height = 27.4528
+
+[node name="Character" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="Title" type="Label" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 0
+margin/left = -48.0
+margin/top = -36.0
+margin/right = 48.0
+margin/bottom = -20.0
+text = "Title"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="HealthBar" type="Polygon2D" parent="Title"]
+
+transform/pos = Vector2( 48, 24 )
+transform/scale = Vector2( 0.8, 0.55 )
+polygon = Vector2Array( -27.5, -18.1818, 27.5, -18.1818, 27.5, -14.5455, -27.5, -14.5455 )
+uv = Vector2Array(  )
+color = Color( 0, 1, 0, 1 )
+vertex_colors = ColorArray(  )
+offset = Vector2( 0, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="back" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+frame = 125
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="back"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="body" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+vframes = 21
+hframes = 13
+frame = 195
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="feet" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="feet"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="legs" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="legs"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="torso" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="torso"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="hands" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="hands"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="shoulders" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="shoulders"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="hair" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+frame = 195
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="hair"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="head" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="head"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="weapon" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="weapon"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="ammo" type="Sprite" parent="."]
+
+vframes = 21
+hframes = 13
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ammo"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/slash_east = SubResource( 1 )
+anims/slash_north = SubResource( 2 )
+anims/slash_south = SubResource( 3 )
+anims/slash_west = SubResource( 4 )
+anims/wait_east = SubResource( 5 )
+anims/wait_north = SubResource( 6 )
+anims/wait_south = SubResource( 7 )
+anims/wait_west = SubResource( 8 )
+anims/walk_east = SubResource( 9 )
+anims/walk_north = SubResource( 10 )
+anims/walk_south = SubResource( 11 )
+anims/walk_west = SubResource( 12 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="StatusInfoTween" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="StatusInfo" type="Label" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = -38.0
+margin/right = 20.0
+margin/bottom = -24.0
+text = "000"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 13 )
+shapes/0/transform = Matrix32( 1.84615, 0, 0, 1.08279, 0, 5.98138 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+transform/pos = Vector2( 0, 5.98138 )
+transform/scale = Vector2( 1.84615, 1.08279 )
+shape = SubResource( 13 )
+trigger = false
+_update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="tween_complete" from="Tween" to="." method="_on_Tween_tween_complete"]
+
+[connection signal="tween_complete" from="StatusInfoTween" to="." method="_on_StatusInfoTween_tween_complete"]
+
+[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
+
+
