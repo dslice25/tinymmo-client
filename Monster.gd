@@ -57,6 +57,12 @@ func go(dir, start, end):
 func wait():
 	get_node("Sprite/AnimationPlayer").play("wait_" + direction)
 
+func attack():
+	get_node("Sprite/AnimationPlayer").play("attack_" + direction)
+	
+func die():
+	pass
+
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here

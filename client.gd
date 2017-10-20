@@ -56,7 +56,9 @@ func _ready():
 	icons['helmet'] = load('res://client_data/icons/helmet.png')
 	icons['leather'] = load('res://client_data/icons/leather_armor.png')
 	icons['plate'] = load('res://client_data/icons/plate_armor.png')
-	icons['potion'] = load('res://client_data/icons/potionBlue.png')
+	icons['blue_potion'] = load('res://client_data/icons/potionBlue.png')
+	icons['red_potion'] = load('res://client_data/icons/potionRed.png')
+	icons['green_potion'] = load('res://client_data/icons/potionGreen.png')
 	
 	get_node("ui/Connection").popup_centered()
 	
@@ -71,7 +73,7 @@ func _unhandled_input(event):
 				_send({'action': 'goto', 'x': tile.x, 'y': tile.y})
 
 
-func set_target(singal, target_name, target_type):
+func set_target(sig, target_name, target_type):
 	_send({'action': 'settarget', 'target_type': target_type, 'target_name': target_name})
 
 	for child in get_node(player_zone + '/character').get_children():
@@ -96,7 +98,6 @@ func refresh(data):
 	
 	
 	# Load zone
-	print("loading zone")
 	player_zone = data['zone']
 	player_name = data['player_name']
 	
@@ -106,7 +107,6 @@ func refresh(data):
 	
 	# Load players
 	for player in data['players']:
-		print("loading player %s" % player)
 		var x = data['players'][player]['x']
 		var y = data['players'][player]['y']
 		var title = data['players'][player]['title']
@@ -119,11 +119,10 @@ func refresh(data):
 		var hairstyle = data['players'][player]['hairstyle']
 		var zone = data['players'][player]['zone']
 		
-		add_character(player, title, 'player', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, false)
+		add_character(player, title, 'player', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, false, false, false)
 	
 	# Load npcs
 	for npc in data['npcs']:
-		print("loading  npc %s" % npc)
 		var x = data['npcs'][npc]['x']
 		var y = data['npcs'][npc]['y']
 		var title = data['npcs'][npc]['title']
@@ -136,13 +135,14 @@ func refresh(data):
 		var hairstyle = data['npcs'][npc]['hairstyle']
 		var zone = data['npcs'][npc]['zone']
 		var villan = data['npcs'][npc]['villan']
+		var shop = data['npcs'][npc]['shop']
+		var quest = data['npcs'][npc]['quest']
 		
-		add_character(npc, title, 'npc', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan)
+		add_character(npc, title, 'npc', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest)
 		
 	
 	# Load monsters
 	for monster in data['monsters']:
-		print("loading monster %s" % monster)
 		var title = data['monsters'][monster]['title']
 		var x = data['monsters'][monster]['x']
 		var y = data['monsters'][monster]['y']
@@ -153,7 +153,6 @@ func refresh(data):
 		
 	# TODO: container
 	for container in data['containers']:
-		print("loading container %s" % container)
 		var title = data['containers'][container]['title']
 		var x = data['containers'][container]['x']
 		var y = data['containers'][container]['y']
@@ -190,6 +189,7 @@ func add_container(name, title, x, y, zone):
 		new_container.set_name(name)
 		new_container.set_container(title, x, y)
 		new_container.connect('targeted', self, 'set_target', [ name, 'container' ])
+		new_container.connect('open_container', self, 'get_container_inventory', [ name ])
 		get_node(zone + '/character').add_child(new_container)
 
 func add_monster(name, title, x, y, source, zone):
@@ -200,12 +200,13 @@ func add_monster(name, title, x, y, source, zone):
 		new_monster.connect('targeted', self, 'set_target', [ name, 'monster' ])
 		get_node(zone + '/character').add_child(new_monster)
 	
-func add_character(name, title, type, x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan):
+func add_character(name, title, type, x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest):
 	if get_node(zone + '/character'):
 		var new_character = character_scene.instance()
 		new_character.set_name(name)
-		new_character.set_character(x, y, title, type, gender, body, armor, head, weapon, haircolor, hairstyle, villan)
+		new_character.set_character(x, y, title, type, gender, body, armor, head, weapon, haircolor, hairstyle, villan, shop, quest)
 		new_character.connect('targeted', self, 'set_target', [ name, type ])
+		new_character.connect('open_shop', self, 'get_shop_inventory', [ shop ])
 		get_node(zone + '/character').add_child(new_character)
 
 func drop_character(name, zone):
@@ -216,6 +217,16 @@ func drop_monster(name, zone):
 
 func drop_container(name, zone):
 	get_node(zone + '/character/' + name).queue_free()
+
+func get_container_inventory(sig, name):
+	_send({'action': 'getcontainerinv', 'name': name })
+	
+func take_container_item(sig, container_name, item_name):
+	_send({'action': 'takecontaineritem', 'container_name': container_name, 'item_name': item_name})
+
+func get_shop_inventory(sig, name):
+	print("Getting shop inv")
+	_send({'action': 'getshopinv', 'name': name })
 	
 func load_inventory(inventory):
 	print("Loading inventory")
@@ -240,7 +251,79 @@ func load_inventory(inventory):
 		item_index += 1
 	
 	_send({'action': 'playerstats' })
+
+func load_container_inventory(container_name, container_title, inventory):
+	var item_index = 0
+	get_node("ui/ContainerInventory/Label").set_text(container_title)
+	get_node("ui/ContainerInventory/ContainerItemList").clear()
+	get_node("ui/ContainerInventory/ContainerItemList").set_allow_rmb_select(true)
+	for item in inventory:
+		var item_data = inventory[item]
+		item_data['container_name'] = container_name
+		var item_title = item_data['title']
+		var item_dam = item_data['dam']
+		var item_hit = item_data['hit']
+		var item_arm = item_data['arm']
+		var item_value = item_data['value']
+		var item_type = item_data['gear_type']
+		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
+		get_node("ui/ContainerInventory/ContainerItemList").add_item(item_title,null,true)
+		get_node("ui/ContainerInventory/ContainerItemList").set_item_metadata(item_index, item_data)
+		get_node("ui/ContainerInventory/ContainerItemList").set_item_tooltip(item_index, item_tooltip)
+		get_node("ui/ContainerInventory/ContainerItemList").set_item_icon(item_index, icons[item_type])
+		item_index += 1
 		
+		get_node("ui/ContainerInventory").popup_centered()
+		
+func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
+	var item_index = 0
+	get_node("ui/ShopInventory/Label").set_text(shop_title)
+	get_node("ui/ShopInventory/ShopItemList").clear()
+	get_node("ui/ShopInventory/ShopItemList").set_allow_rmb_select(true)
+	for item in inventory:
+		var item_data = inventory[item]
+		item_data['shop_name'] = shop_name
+		item_data['name'] = item
+		var item_title = item_data['title']
+		var item_dam = item_data['dam']
+		var item_hit = item_data['hit']
+		var item_arm = item_data['arm']
+		var item_value = item_data['value']
+		var item_type = item_data['gear_type']
+		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
+		get_node("ui/ShopInventory/ShopItemList").add_item(item_title,null,true)
+		get_node("ui/ShopInventory/ShopItemList").set_item_metadata(item_index, item_data)
+		get_node("ui/ShopInventory/ShopItemList").set_item_tooltip(item_index, item_tooltip)
+		get_node("ui/ShopInventory/ShopItemList").set_item_icon(item_index, icons[item_type])
+		item_index += 1
+		
+		
+	item_index = 0
+	get_node("ui/ShopInventory/PlayerItemList").clear()
+	get_node("ui/ShopInventory/PlayerItemList").set_allow_rmb_select(true)
+	for item in player_inventory:
+		var item_data = player_inventory[item]
+		print(item_data)
+		item_data['shop_name'] = shop_name
+		item_data['name'] = item
+		var item_title = item_data['title']
+		var item_dam = item_data['dam']
+		var item_hit = item_data['hit']
+		var item_arm = item_data['arm']
+		var item_value = item_data['value']
+		var item_type = item_data['gear_type']
+		var icon = item_data['icon']
+		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
+		get_node("ui/ShopInventory/PlayerItemList").add_item(item_title,null,true)
+		get_node("ui/ShopInventory/PlayerItemList").set_item_metadata(item_index, item_data)
+		get_node("ui/ShopInventory/PlayerItemList").set_item_tooltip(item_index, item_tooltip)
+		get_node("ui/ShopInventory/PlayerItemList").set_item_icon(item_index, icons[item_type])
+		item_index += 1
+		
+		
+	get_node("ui/ShopInventory").popup_centered()
+
+
 func load_stats(stats):
 	var title = stats['title']
 	var level = stats['level']
@@ -314,9 +397,14 @@ func _process(delta):
 				print(data)
 				load_inventory(data['inventory'])
 			
-			elif data['type'] == 'targetinfo':
+			elif data['type'] == 'containerinventory':
 				print(data)
-				
+				load_container_inventory(data['name'],data['title'],data['inventory'])
+			
+			elif data['type'] == 'shopinv':
+				print(data)
+				load_shop_inventory(data['name'],data['title'],data['inventory'], data['player_inventory'])
+			
 			elif data['type'] == 'events':
 				for event in data['events']:
 					if not event['type'] in ['monstermove','npcmove','playermove']:
@@ -373,6 +461,8 @@ func _process(delta):
 									  event['haircolor'],
 									  event['hairstyle'],
 									  event['zone'],
+									  false,
+									  false,
 									  false)
 									
 					elif event['type'] == 'addnpc':
@@ -390,7 +480,9 @@ func _process(delta):
 									  event['haircolor'],
 									  event['hairstyle'],
 									  event['zone'],
-									  event['villan'])
+									  event['villan'],
+									  event['shop'],
+									  event['quest'])
 					
 					elif event['type'] == 'addcontainer':
 						add_container(event['name'], 
@@ -446,34 +538,34 @@ func _process(delta):
 					
 					# COMBAT STUFF
 					elif event['type'] == 'playerthrust':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).thrust()
 					
 					elif event['type'] == 'playerslash':
 						get_node(event['zone'] + '/character/' + event['name']).slash()
 					
 					elif event['type'] == 'playerbow':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).bow()
 						
 					elif event['type'] == 'playerdie':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).die()
 						
 					elif event['type'] == 'npcthrust':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).thrust()
 						
 					elif event['type'] == 'npcslash':
 						get_node(event['zone'] + '/character/' + event['name']).slash()
 						
 					elif event['type'] == 'npcbow':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).bow()
 						
 					elif event['type'] == 'npcdie':
-						get_node(event['zone'] + '/character/' + event['name']).queue_free()
+						get_node(event['zone'] + '/character/' + event['name']).die()
 						
 					elif event['type'] == 'monsterattack':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).attack()
 						
 					elif event['type'] == 'monsterdie':
-						pass
+						get_node(event['zone'] + '/character/' + event['name']).die()
 							
 					elif event['type'] == 'monsterdamage':
 						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
@@ -666,6 +758,61 @@ func _on_CharacterButton1_pressed():
 func _on_RefreshButton_pressed():
 	get_gamestate()
 
-
 func _on_HotButton1_pressed():
 	attack()
+
+func _on_ContainerInventoryCloseButton_pressed():
+	_send({'action': 'inventory' })
+	get_node("ui/ContainerInventory").hide()
+
+
+func _on_ContainerItemList_item_rmb_selected( index, atpos ):
+	var item = get_node("ui/ContainerInventory/ContainerItemList").get_item_metadata(index)
+	var item_name = item['name']
+	var container_name = item['container_name']
+	var item_menu = PopupMenu.new()
+	item_menu.set_pos(get_viewport().get_mouse_pos())
+	item_menu.add_item("Take",0)
+	item_menu.connect("item_pressed", self, '_on_container_inventory_item_action', [container_name, item_name])
+	get_node("ui/ContainerInventory/ContainerItemList").add_child(item_menu)
+	item_menu.popup()
+
+func _on_container_inventory_item_action(index, container_name, item_name):
+	if index == 0:
+		_send({'action': 'takecontaineritem', 'name': container_name, 'item_name': item_name })
+
+
+
+func _on_ShopItemList_item_rmb_selected( index, atpos ):
+	var item = get_node("ui/ShopInventory/ShopItemList").get_item_metadata(index)
+	var item_name = item['name']
+	var shop_name = item['shop_name']
+	var item_menu = PopupMenu.new()
+	item_menu.set_pos(get_viewport().get_mouse_pos())
+	item_menu.add_item("Buy",0)
+	item_menu.connect("item_pressed", self, '_on_shop_inventory_item_action', [shop_name, item_name])
+	get_node("ui/ShopInventory/ShopItemList").add_child(item_menu)
+	item_menu.popup()
+
+func _on_shop_inventory_item_action(index, shop_name, item_name):
+	if index == 0:
+		_send({'action': 'buyshopitem', 'name': shop_name, 'item_name': item_name })
+
+func _on_ShopInventoryCloseButton_pressed():
+	_send({'action': 'inventory' })
+	get_node("ui/ShopInventory").hide()
+
+func _on_PlayerItemList_item_rmb_selected( index, atpos ):
+	var item = get_node("ui/ShopInventory/PlayerItemList").get_item_metadata(index)
+	var item_name = item['name']
+	var shop_name = item['shop_name']
+	var item_menu = PopupMenu.new()
+	item_menu.set_pos(get_viewport().get_mouse_pos())
+	item_menu.add_item("Sell",0)
+	item_menu.connect("item_pressed", self, '_on_shop_player_inventory_item_action', [shop_name, item_name])
+	get_node("ui/ShopInventory/PlayerItemList").add_child(item_menu)
+	item_menu.popup()
+
+func _on_shop_player_inventory_item_action(index, shop_name, item_name):
+	if index == 0:
+		_send({'action': 'sellitem', 'shop_name': shop_name, 'item_name': item_name })
