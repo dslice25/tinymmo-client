@@ -284,7 +284,7 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 		var item_data = inventory[item]
 		item_data['shop_name'] = shop_name
 		item_data['name'] = item
-		var item_title = item_data['title']
+		var item_title = "%s  %sg" % [item_data['title'], item_data['value']]
 		var item_dam = item_data['dam']
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
@@ -306,7 +306,7 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 		print(item_data)
 		item_data['shop_name'] = shop_name
 		item_data['name'] = item
-		var item_title = item_data['title']
+		var item_title = "%s  %sg" % [item_data['title'], int(item_data['value']/2)]
 		var item_dam = item_data['dam']
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
@@ -333,6 +333,7 @@ func load_stats(stats):
 	var gold = stats['gold']
 	var hp = stats['hp']
 	var mp = stats['mp']
+	var expp = stats['exp']
 	var title_text = "%s (%s)" % [title, level]
 	get_node("ui/MenuBar/HBoxContainer/PlayerTitle").set_text(title_text)
 	
@@ -347,6 +348,17 @@ func load_stats(stats):
 	get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_value(mp[0])
 	get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_tooltip("%s/%s" % mp)
 	get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").update()
+	
+	# Update character panel
+	get_node("ui/Character/CharacterLabel").set_text(title)
+	get_node("ui/Character/MPValue").set_text(str(mp[1]))
+	get_node("ui/Character/HPValue").set_text(str(hp[1]))
+	get_node("ui/Character/GoldValue").set_text(str(gold))
+	get_node("ui/Character/EXPValue").set_text(str(expp))
+	get_node("ui/Character/LevelValue").set_text(str(level))
+	get_node("ui/Character/HitValue").set_text(str(hit))
+	get_node("ui/Character/DAMValue").set_text(str(dam))
+	get_node("ui/Character/ARMValue").set_text(str(arm))
 	
 func load_quests(quests):
 	print("Loading quests")

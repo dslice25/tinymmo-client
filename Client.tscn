@@ -458,6 +458,278 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="HP" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 29.0
+margin/right = 48.0
+margin/bottom = 49.0
+text = "HP"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="HPValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 29.0
+margin/right = 118.0
+margin/bottom = 53.0
+placeholder/text = "10"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="GOLD" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 128.0
+margin/top = 29.0
+margin/right = 168.0
+margin/bottom = 49.0
+text = "Gold"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="GoldValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 168.0
+margin/top = 29.0
+margin/right = 226.0
+margin/bottom = 53.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="EXP" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 128.0
+margin/top = 89.0
+margin/right = 168.0
+margin/bottom = 109.0
+text = "EXP"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="EXPValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 168.0
+margin/top = 89.0
+margin/right = 226.0
+margin/bottom = 113.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="LEVEL" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 128.0
+margin/top = 59.0
+margin/right = 168.0
+margin/bottom = 79.0
+text = "Level"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LevelValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 168.0
+margin/top = 59.0
+margin/right = 226.0
+margin/bottom = 83.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="MP" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 59.0
+margin/right = 48.0
+margin/bottom = 79.0
+text = "MP"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="MPValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 59.0
+margin/right = 118.0
+margin/bottom = 83.0
+placeholder/text = "10"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="HIT" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 89.0
+margin/right = 48.0
+margin/bottom = 109.0
+text = "HIT"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="HitValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 89.0
+margin/right = 118.0
+margin/bottom = 113.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ARM" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 119.0
+margin/right = 47.0
+margin/bottom = 139.0
+text = "ARM"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ARMValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 119.0
+margin/right = 118.0
+margin/bottom = 143.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="DAM" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 149.0
+margin/right = 48.0
+margin/bottom = 169.0
+text = "DAM"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="DAMValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 149.0
+margin/right = 118.0
+margin/bottom = 173.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
 [node name="Abilities" type="Panel" parent="ui"]
 
 visibility/visible = false
@@ -842,10 +1114,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 300.0
+margin/left = 260.0
 margin/top = 200.0
-margin/right = 558.0
-margin/bottom = 340.0
+margin/right = 590.0
+margin/bottom = 430.0
 popup/exclusive = false
 
 [node name="Label" type="Label" parent="ui/ShopInventory"]
@@ -855,10 +1127,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 22.0
-margin/top = 1.0
-margin/right = 128.0
-margin/bottom = 22.0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 170.0
+margin/bottom = 30.0
 text = "Shop"
 align = 1
 valign = 1
@@ -876,7 +1148,7 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 0.157143
+margin/top = 0.130435
 margin/right = 1.0
 margin/bottom = 8.0
 
@@ -891,7 +1163,7 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 1.0
-margin/top = 0.157143
+margin/top = 0.130435
 margin/right = 0.0
 margin/bottom = 8.0
 
@@ -901,10 +1173,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 130.0
-margin/top = 3.0
-margin/right = 258.0
-margin/bottom = 22.0
+margin/left = 160.0
+margin/top = 0.0
+margin/right = 330.0
+margin/bottom = 30.0
 text = "Player Items"
 align = 1
 valign = 1
