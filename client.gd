@@ -13,6 +13,7 @@ var players = {}
 var character_scene = null
 var monster_scene = null
 var container_scene = null
+var effect_scene = null
 
 var client = null
 
@@ -21,6 +22,10 @@ var player_item_index = []
 var player_quest_index = []
 var equipped_color = null
 var icons = {}
+var hotbutton1_action = null
+var hotbutton2_action = null
+var hotbutton3_action = null
+var hotbutton4_action = null
 
 
 func _ready():
@@ -38,6 +43,7 @@ func _ready():
 	character_scene = preload('res://Character.tscn')
 	monster_scene = preload('res://Monster.tscn')
 	container_scene = preload('res://Container.tscn')
+	effect_scene = preload('res://Effect.tscn')
 	
 	set_process(true)
 	set_process_unhandled_input(true)
@@ -59,6 +65,17 @@ func _ready():
 	icons['blue_potion'] = load('res://client_data/icons/potionBlue.png')
 	icons['red_potion'] = load('res://client_data/icons/potionRed.png')
 	icons['green_potion'] = load('res://client_data/icons/potionGreen.png')
+	icons['fire_lion'] = load('res://client_data/icons/fire_lion32.png')
+	icons['earth_spike'] = load('res://client_data/icons/earth_spike32.png')
+	icons['earth_spikes'] = load('res://client_data/icons/earth_spikes32.png')
+	icons['lightning_claw'] = load('res://client_data/icons/lightning_claw.png')
+	icons['snake_bite'] = load('res://client_data/icons/snake_bite32.png')
+	icons['tornado'] = load('res://client_data/icons/tornado32.png')
+	icons['turtle_shell'] = load('res://client_data/icons/turtle_shell32.png')
+	icons['water_tentacles'] = load('res://client_data/icons/water_tentacle32.png')
+	icons['ice_spike'] = load('res://client_data/icons/ice_spike32.png')
+	icons['ice_spikes'] = load('res://client_data/icons/ice_spikes32.png')
+	icons['ice_shield'] = load('res://client_data/icons/ice_shield32.png')
 	
 	get_node("ui/Connection").popup_centered()
 	
@@ -71,7 +88,15 @@ func _unhandled_input(event):
 			var tile = get_node(player_zone + '/character').world_to_map(pos)
 			if event.button_index == BUTTON_LEFT && !Input.is_mouse_button_pressed(BUTTON_LEFT):
 				_send({'action': 'goto', 'x': tile.x, 'y': tile.y})
-
+		elif event.type == InputEvent.KEY && !Input.is_key_pressed(event.scancode):
+			if event.scancode == KEY_1:
+				_send({'action': 'activate', 'ability_name': hotbutton1_action })
+			elif event.scancode == KEY_2:
+				_send({'action': 'activate', 'ability_name': hotbutton2_action })
+			elif event.scancode == KEY_3:
+				_send({'action': 'activate', 'ability_name': hotbutton3_action })
+			elif event.scancode == KEY_4:
+				_send({'action': 'activate', 'ability_name': hotbutton4_action })
 
 func set_target(sig, target_name, target_type):
 	_send({'action': 'settarget', 'target_type': target_type, 'target_name': target_name})
@@ -83,7 +108,6 @@ func set_target(sig, target_name, target_type):
 	
 	
 func get_gamestate():
-	print("REQUESTING REFRESH!")
 	_send({"action": "refresh"})
 	need_refresh = false
 
@@ -95,7 +119,6 @@ func refresh(data):
 	load_inventory(data['player_inventory']['inventory'])
 	load_stats(data['player_stats']['stats'])
 	load_quests(data['player_quests']['quests'])
-	
 	
 	# Load zone
 	player_zone = data['zone']
@@ -183,6 +206,16 @@ func _send(data):
 	else:
 		print("Not connected")
 
+func add_effect(name, target, animation, zone):
+	if get_node(zone + '/character/' + target):
+		var new_effect = effect_scene.instance()
+		new_effect.set_name(name)
+		new_effect.connect('effect_completed', self, 'cleanup_effect', [ name, target ])
+		get_node(zone + '/character/' + target).add_child(new_effect)
+		get_node(zone + '/character/' + target + '/' + name).set_animation(animation, target)
+		get_node(zone + '/character/' + target + '/' + name).activate()
+		
+
 func add_container(name, title, x, y, zone):
 	if get_node(zone + '/character'):
 		var new_container = container_scene.instance()
@@ -225,11 +258,27 @@ func take_container_item(sig, container_name, item_name):
 	_send({'action': 'takecontaineritem', 'container_name': container_name, 'item_name': item_name})
 
 func get_shop_inventory(sig, name):
-	print("Getting shop inv")
 	_send({'action': 'getshopinv', 'name': name })
+
+func load_abilities(abilities):
 	
+	var ability_index = 0
+	get_node("ui/Abilities/AbilityItemList").clear()
+	get_node("ui/Abilities/AbilityItemList").set_allow_rmb_select(true)
+	for ability in abilities:
+		var ability_data = abilities[ability]
+		var ability_title = ability_data['title']
+		var ability_icon = ability_data['icon']
+		var ability_description = ability_data['description']
+		
+		get_node("ui/Abilities/AbilityItemList").add_item(ability_title, null, true)
+		get_node("ui/Abilities/AbilityItemList").set_item_metadata(ability_index, ability_data)
+		get_node("ui/Abilities/AbilityItemList").set_item_icon(ability_index, icons[ability_icon])
+		get_node("ui/Abilities/AbilityItemList").set_item_tooltip(ability_index, ability_description)
+		
+		ability_index += 1
+		
 func load_inventory(inventory):
-	print("Loading inventory")
 	var item_index = 0
 	get_node("ui/Inventory/InventoryItemList").clear()
 	get_node("ui/Inventory/InventoryItemList").set_allow_rmb_select(true)
@@ -249,8 +298,6 @@ func load_inventory(inventory):
 		if item_data['equipped']:
 			get_node("ui/Inventory/InventoryItemList").set_item_custom_bg_color(item_index, equipped_color)
 		item_index += 1
-	
-	_send({'action': 'playerstats' })
 
 func load_container_inventory(container_name, container_title, inventory):
 	var item_index = 0
@@ -303,7 +350,6 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 	get_node("ui/ShopInventory/PlayerItemList").set_allow_rmb_select(true)
 	for item in player_inventory:
 		var item_data = player_inventory[item]
-		print(item_data)
 		item_data['shop_name'] = shop_name
 		item_data['name'] = item
 		var item_title = "%s  %sg" % [item_data['title'], int(item_data['value']/2)]
@@ -322,6 +368,7 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 		
 		
 	get_node("ui/ShopInventory").popup_centered()
+	get_node("ui/Inventory").hide()
 
 
 func load_stats(stats):
@@ -330,6 +377,7 @@ func load_stats(stats):
 	var hit = stats['hit']
 	var dam = stats['dam']
 	var arm = stats['arm']
+	var spi = stats['spi']
 	var gold = stats['gold']
 	var hp = stats['hp']
 	var mp = stats['mp']
@@ -359,18 +407,14 @@ func load_stats(stats):
 	get_node("ui/Character/HitValue").set_text(str(hit))
 	get_node("ui/Character/DAMValue").set_text(str(dam))
 	get_node("ui/Character/ARMValue").set_text(str(arm))
+	get_node("ui/Character/SPIValue").set_text(str(spi))
 	
 func load_quests(quests):
 	print("Loading quests")
 
 func attack():
-	print("Attacking target with weapon")
 	_send({"action": "attack"})
 	
-func get_npc_dialog():
-	print("Getting NPC dialog")
-	_send({"action": "get_npc_dialog"})
-
 func _process(delta):
 	
 	if client.is_connected():
@@ -383,69 +427,65 @@ func _process(delta):
 
 		if not data.empty():
 			if data['type'] == 'playeroptions':
-				print(data)
 				set_playeroptions(data)
 				if not get_node("ui/CharacterCreation").is_visible():
 					get_node("ui/CharacterCreation").popup_centered()
 				
 			elif data['type'] == 'loginsucceeded':
-				print(data)
 				get_node("ui/CharacterCreation").queue_free()
 				get_gamestate()
 				
 			elif data['type'] == 'refresh':
-				#print(data)
 				refresh(data)
 			
 			elif data['type'] == 'playerstats':
-				print(data)
 				load_stats(data['stats'])
 					
 			elif data['type'] == 'playerquests':
-				print(data)
 				load_quests(data['quests'])
 						
 			elif data['type'] == 'inventory':
-				print(data)
 				load_inventory(data['inventory'])
+				
+			elif data['type'] == 'abilities':
+				load_abilities(data['abilities'])
 			
 			elif data['type'] == 'containerinventory':
-				print(data)
 				load_container_inventory(data['name'],data['title'],data['inventory'])
 			
 			elif data['type'] == 'shopinv':
-				print(data)
 				load_shop_inventory(data['name'],data['title'],data['inventory'], data['player_inventory'])
 			
 			elif data['type'] == 'events':
 				for event in data['events']:
-					if not event['type'] in ['monstermove','npcmove','playermove']:
-						print(event)
 					
 					# We MUST have the zone for these event
 					if event.has('zone'):
 						if not get_node(event['zone']):
-							print("No zone %s" % event['zone'])
 							get_gamestate()
 					
-					if event['type'] == 'monstermove':
-						var m = get_node(event['zone'] + '/character/' + event['name'])
-						if m:
-							m.go(event['direction'], event['start'], event['end'])
+					if event['type'] == 'playerchat':
+						var msg = "[%s] %s" % [event['title'], event['message']]
+						var chat_panel = get_node("ui/ChatPanel/ChatItemList")
+						chat_panel.add_item(msg)
+						chat_panel.select(chat_panel.get_item_count() - 1)
+						chat_panel.ensure_current_is_visible()
+					
+					elif event['type'] == 'monstermove':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
 							_send({'action': 'getmonster', 'name': event['name']})
 						
 					elif event['type'] == 'playermove':
-						var p = get_node(event['zone'] + '/character/' + event['name'])
-						if p:
-							p.go(event['direction'], event['start'], event['end'])
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
-							_send({'action': 'getmonster', 'name': event['name']})
+							_send({'action': 'getplayer', 'name': event['name']})
 					
 					elif event['type'] == 'npcmove':
-						var n = get_node(event['zone'] + '/character/' + event['name'])
-						if n:
-							n.go(event['direction'], event['start'], event['end'])
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
 					
@@ -504,16 +544,26 @@ func _process(delta):
 									  event['zone'])
 					
 					elif event['type'] == 'dropplayer':
-						drop_character(event['name'], event['zone'])
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							drop_character(event['name'], event['zone'])
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'dropmonster':
-						drop_monster(event['name'], event['zone'])
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							drop_monster(event['name'], event['zone'])
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
+							
 					elif event['type'] == 'dropnpc':
-						drop_character(event['name'], event['zone'])
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							drop_character(event['name'], event['zone'])
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'dropcontainer':
-						drop_container(event['name'], event['zone'])
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							drop_container(event['name'], event['zone'])
 						
 					elif event['type'] == 'setplayerarmor':
 						var p = get_node(event['zone'] + '/character/' + event['name'])
@@ -550,86 +600,163 @@ func _process(delta):
 					
 					# COMBAT STUFF
 					elif event['type'] == 'playerthrust':
-						get_node(event['zone'] + '/character/' + event['name']).thrust()
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).thrust()
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
+					elif event['type'] == 'playercast':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).cast()
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'playerslash':
-						get_node(event['zone'] + '/character/' + event['name']).slash()
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).slash()
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'playerbow':
-						get_node(event['zone'] + '/character/' + event['name']).bow()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).bow()
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'playerdie':
-						get_node(event['zone'] + '/character/' + event['name']).die()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).die()
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'npcthrust':
-						get_node(event['zone'] + '/character/' + event['name']).thrust()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).thrust()
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
+					elif event['type'] == 'npccast':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).cast()
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'npcslash':
-						get_node(event['zone'] + '/character/' + event['name']).slash()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).slash()
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'npcbow':
-						get_node(event['zone'] + '/character/' + event['name']).bow()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).bow()
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'npcdie':
-						get_node(event['zone'] + '/character/' + event['name']).die()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).die()
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'monsterattack':
-						get_node(event['zone'] + '/character/' + event['name']).attack()
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).attack()
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
+							
 					elif event['type'] == 'monsterdie':
-						get_node(event['zone'] + '/character/' + event['name']).die()
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).die()
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
 							
 					elif event['type'] == 'monsterdamage':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
-						
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
+							
 					elif event['type'] == 'monsterheal':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
+							
 					elif event['type'] == 'npcdamage':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'npcheal':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
-						
-					
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'playerdamage':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).take_damage(event['damage'])
 						
-						if event['name'] == player_name:
-							var hp = event['hp']
-							var ratio = float(hp[0])/float(hp[1])
-							var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_value(hp[0])
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_max(hp[1])
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_tooltip("%s/%s" % hp)
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").get_stylebox('fg').set_bg_color(color)
+							if event['name'] == player_name:
+								var hp = event['hp']
+								var ratio = float(hp[0])/float(hp[1])
+								var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_value(hp[0])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_max(hp[1])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_tooltip("%s/%s" % hp)
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").get_stylebox('fg').set_bg_color(color)
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
 							
-						
 					elif event['type'] == 'playerheal':
-						get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
-						get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
-						
-						
-						if event['name'] == player_name:
-							var hp = event['hp']
-							var ratio = float(hp[0])/float(hp[1])
-							var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_value(hp[0])
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_max(hp[1])
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_tooltip("%s/%s" % hp)
-							get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").get_stylebox('fg').set_bg_color(color)
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).set_healthbar(event['hp'])
+							get_node(event['zone'] + '/character/' + event['name']).heal(event['heal'])
 							
+							if event['name'] == player_name:
+								var hp = event['hp']
+								var ratio = float(hp[0])/float(hp[1])
+								var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_value(hp[0])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_max(hp[1])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").set_tooltip("%s/%s" % hp)
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/HealthBar").get_stylebox('fg').set_bg_color(color)
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
+					elif event['type'] == 'playermpused':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							if event['name'] == player_name:
+								var mp = event['mp']
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_value(mp[0])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_max(mp[1])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_tooltip("%s/%s" % mp)
+						
+					elif event['type'] == 'playermprestore':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							if event['name'] == player_name:
+								var mp = event['mp']
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_value(mp[0])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_max(mp[1])
+								get_node("ui/MenuBar/HBoxContainer/VBoxContainer/ManaBar").set_tooltip("%s/%s" % mp)
+								
+					
+					elif event['type'] == 'addeffect':
+						if get_node(event['zone'] + '/character').has_node(event['target']):
+							add_effect(event['name'], event['target'], event['animation'], event['zone'])
 
 						
-					#else:
-					#	print(event)
-			#else:
-			#	print(data)
+					else:
+						print(event)
+			else:
+				print(data)
 	
 
 func _on_InventoryItemList_item_rmb_selected( index, atpos ):
@@ -720,6 +847,7 @@ func _on_InventoryButton_pressed():
 	if get_node("ui/Inventory").is_visible():
 		get_node("ui/Inventory").hide()
 	else:
+		_send({'action': 'inventory' })
 		get_node("ui/Inventory").show()
 		get_node("ui/Abilities").hide()
 		get_node("ui/Quests").hide()
@@ -731,6 +859,7 @@ func _on_AbilitiesButton_pressed():
 	if get_node("ui/Abilities").is_visible():
 		get_node("ui/Abilities").hide()
 	else:
+		_send({'action': 'abilities' })
 		get_node("ui/Abilities").show()
 		get_node("ui/Inventory").hide()
 		get_node("ui/Quests").hide()
@@ -761,20 +890,26 @@ func _on_CharacterButton1_pressed():
 	if get_node("ui/Character").is_visible():
 		get_node("ui/Character").hide()
 	else:
+		_send({'action': 'playerstats' })
 		get_node("ui/Character").show()
 		get_node("ui/Inventory").hide()
 		get_node("ui/Abilities").hide()
 		get_node("ui/Quests").hide()
 		get_node("ui/Options").hide()
 
+func _on_ChatMenu_pressed():
+	if get_node("ui/ChatPanel").is_visible():
+		get_node("ui/ChatPanel").hide()
+	else:
+		get_node("ui/ChatPanel").show()
+
+
+
 func _on_RefreshButton_pressed():
 	get_gamestate()
 
-func _on_HotButton1_pressed():
-	attack()
 
 func _on_ContainerInventoryCloseButton_pressed():
-	_send({'action': 'inventory' })
 	get_node("ui/ContainerInventory").hide()
 
 
@@ -811,7 +946,6 @@ func _on_shop_inventory_item_action(index, shop_name, item_name):
 		_send({'action': 'buyshopitem', 'name': shop_name, 'item_name': item_name })
 
 func _on_ShopInventoryCloseButton_pressed():
-	_send({'action': 'inventory' })
 	get_node("ui/ShopInventory").hide()
 
 func _on_PlayerItemList_item_rmb_selected( index, atpos ):
@@ -825,6 +959,62 @@ func _on_PlayerItemList_item_rmb_selected( index, atpos ):
 	get_node("ui/ShopInventory/PlayerItemList").add_child(item_menu)
 	item_menu.popup()
 
+func _on_AbilityItemList_item_rmb_selected( index, atpos ):
+	var ability = get_node("ui/Abilities/AbilityItemList").get_item_metadata(index)
+	var ability_name = ability['name']
+	var ability_icon = ability['icon']
+	var ability_menu = PopupMenu.new()
+	ability_menu.set_pos(get_viewport().get_mouse_pos())
+	ability_menu.add_item('Activate', 0)
+	ability_menu.add_separator()
+	ability_menu.add_item('Set to HotButton 1', 1)
+	ability_menu.add_item('Set to HotButton 2', 2)
+	ability_menu.add_item('Set to HotButton 3', 3)
+	ability_menu.add_item('Set to HotButton 4', 4)
+	ability_menu.connect("item_pressed", self, "_on_player_ability_item_action", [ability_name, ability_icon])
+	get_node("ui/Abilities/AbilityItemList").add_child(ability_menu)
+	ability_menu.popup()
+	
+	
 func _on_shop_player_inventory_item_action(index, shop_name, item_name):
 	if index == 0:
 		_send({'action': 'sellitem', 'shop_name': shop_name, 'item_name': item_name })
+		
+func cleanup_effect(sig, foo, name, target):
+	get_node(player_zone + '/character/' + target + '/' + name).queue_free()
+
+func _on_player_ability_item_action(index, ability_name, ability_icon):
+	if index == 0:
+		_send({'action': 'activate', 'ability_name': ability_name })
+	elif index == 1:
+		hotbutton1_action = ability_name
+		get_node('ui/MenuBar/HBoxContainer/HotButton1').set_button_icon(icons[ability_icon])
+	elif index == 2:
+		hotbutton2_action = ability_name
+		get_node('ui/MenuBar/HBoxContainer/HotButton2').set_button_icon(icons[ability_icon])
+	elif index == 3:
+		hotbutton3_action = ability_name
+		get_node('ui/MenuBar/HBoxContainer/HotButton3').set_button_icon(icons[ability_icon])
+	elif index == 4:
+		hotbutton4_action = ability_name
+		get_node('ui/MenuBar/HBoxContainer/HotButton4').set_button_icon(icons[ability_icon])
+		
+func _on_HotButton1_pressed():
+	if hotbutton1_action:
+		_send({'action': 'activate', 'ability_name': hotbutton1_action })
+
+func _on_HotButton2_pressed():
+	if hotbutton2_action:
+		_send({'action': 'activate', 'ability_name': hotbutton2_action })
+
+func _on_HotButton3_pressed():
+	if hotbutton3_action:
+		_send({'action': 'activate', 'ability_name': hotbutton3_action })
+
+func _on_HotButton4_pressed():
+	if hotbutton4_action:
+		_send({'action': 'activate', 'ability_name': hotbutton4_action })
+
+func _on_ChatEntry_text_entered( text ):
+	_send({'action': 'chat', 'message': text })
+	get_node("ui/ChatPanel/ChatEntry").clear()

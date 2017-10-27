@@ -143,6 +143,8 @@ func set_character(x, y, set_title, set_type, set_gender, body, armor, head, wea
 	wait()
 
 func set_healthbar(hp):
+	if hp[0] < 0:
+		hp[0] = 0
 	var ratio = float(hp[0])/float(hp[1])
 	var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
 	get_node("Title/HealthBar").set_scale(Vector2(ratio,1.0))
@@ -208,6 +210,18 @@ func thrust():
 	get_node("head/AnimationPlayer").play("thrust_" + direction)
 	get_node("weapon/AnimationPlayer").play("thrust_" + direction)
 	get_node("ammo/AnimationPlayer").play("thrust_" + direction)
+
+func cast():
+	get_node("body/AnimationPlayer").play("cast_" + direction)
+	get_node("torso/AnimationPlayer").play("cast_" + direction)
+	get_node("feet/AnimationPlayer").play("cast_" + direction)
+	get_node("legs/AnimationPlayer").play("cast_" + direction)
+	get_node("hands/AnimationPlayer").play("cast_" + direction)
+	get_node("shoulders/AnimationPlayer").play("cast_" + direction)
+	get_node("hair/AnimationPlayer").play("cast_" + direction)
+	get_node("head/AnimationPlayer").play("cast_" + direction)
+	get_node("weapon/AnimationPlayer").play("cast_" + direction)
+	get_node("ammo/AnimationPlayer").play("cast_" + direction)
 
 func bow():
 	get_node("body/AnimationPlayer").play("bow_" + direction)

@@ -3,7 +3,7 @@
 [ext_resource path="res://Monster.gd" type="Script" id=1]
 [ext_resource path="res://client_data/LPC Base Assets/sprites/monsters/eyeball.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=1]
 
 resource/name = "attack_east"
 length = 0.4
@@ -20,7 +20,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 4, 5, 3 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=2]
 
 resource/name = "attack_north"
 length = 0.4
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 1, 2, 0 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=3]
 
 resource/name = "attack_south"
 length = 0.4
@@ -54,7 +54,7 @@ tracks/0/keys = {
 "values": [ 6, 8, 6, 8, 6 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=4]
 
 resource/name = "attack_west"
 length = 0.4
@@ -71,7 +71,7 @@ tracks/0/keys = {
 "values": [ 10, 11, 10, 11, 9 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=5]
 
 resource/name = "die"
 length = 0.9
@@ -88,9 +88,8 @@ tracks/0/keys = {
 "values": [ 0, 3, 6, 9, 0, 3, 6, 9, 6 ]
 }
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=6]
 
-resource/name = "go_east"
 length = 0.4
 loop = true
 step = 0.1
@@ -105,9 +104,8 @@ tracks/0/keys = {
 "values": [ 9, 10, 11, 10 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=7]
 
-resource/name = "go_north"
 length = 0.4
 loop = true
 step = 0.1
@@ -122,9 +120,8 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 1 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=8]
 
-resource/name = "go_south"
 length = 0.4
 loop = true
 step = 0.1
@@ -139,9 +136,8 @@ tracks/0/keys = {
 "values": [ 6, 7, 8, 7 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=9]
 
-resource/name = "go_west"
 length = 0.4
 loop = true
 step = 0.1
@@ -156,7 +152,7 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 4 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=10]
 
 length = 0.4
 loop = true
@@ -172,7 +168,7 @@ tracks/0/keys = {
 "values": [ 9 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=11]
 
 length = 0.4
 loop = true
@@ -188,7 +184,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=12]
 
 length = 0.4
 loop = true
@@ -204,7 +200,7 @@ tracks/0/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=13]
 
 length = 0.4
 loop = true
@@ -220,7 +216,7 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=9]
+[sub_resource type="CapsuleShape2D" id=14]
 
 custom_solver_bias = 0.0
 radius = 10.0
@@ -285,19 +281,19 @@ __meta__ = {
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack_east = SubResource( 10 )
-anims/attack_north = SubResource( 11 )
-anims/attack_south = SubResource( 12 )
-anims/attack_west = SubResource( 13 )
-anims/die = SubResource( 14 )
-anims/go_east = SubResource( 1 )
-anims/go_north = SubResource( 2 )
-anims/go_south = SubResource( 3 )
-anims/go_west = SubResource( 4 )
-anims/wait_east = SubResource( 5 )
-anims/wait_north = SubResource( 6 )
-anims/wait_south = SubResource( 7 )
-anims/wait_west = SubResource( 8 )
+anims/attack_east = SubResource( 1 )
+anims/attack_north = SubResource( 2 )
+anims/attack_south = SubResource( 3 )
+anims/attack_west = SubResource( 4 )
+anims/die = SubResource( 5 )
+anims/go_east = SubResource( 6 )
+anims/go_north = SubResource( 7 )
+anims/go_south = SubResource( 8 )
+anims/go_west = SubResource( 9 )
+anims/wait_east = SubResource( 10 )
+anims/wait_north = SubResource( 11 )
+anims/wait_south = SubResource( 12 )
+anims/wait_west = SubResource( 13 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -307,7 +303,7 @@ autoplay = ""
 
 transform/pos = Vector2( 0, 10 )
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 14 )
 shapes/0/transform = Matrix32( 1.53846, 0, 0, 1, 0, -10 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -322,7 +318,7 @@ __meta__ = {
 
 transform/pos = Vector2( 0, -10 )
 transform/scale = Vector2( 1.53846, 1 )
-shape = SubResource( 9 )
+shape = SubResource( 14 )
 trigger = false
 _update_shape_index = 0
 __meta__ = {

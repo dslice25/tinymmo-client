@@ -24,6 +24,8 @@ func set_monster(set_title, x, y, source):
 	get_node("Title").set_text(title)
 	
 func set_healthbar(hp):
+	if hp[0] < 0:
+		hp[0] = 0
 	var ratio = float(hp[0])/float(hp[1])
 	var color = Color(255.0 * (1.0-ratio), 255.0 * ratio, 0.0)
 	get_node("Title/HealthBar").set_scale(Vector2(ratio,1.0))
