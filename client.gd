@@ -52,12 +52,14 @@ func _ready():
 	icons['chainhood'] = load('res://client_data/icons/chain_hood.png')
 	icons['wand'] = load('res://client_data/icons/wand.png')
 	icons['sword'] = load('res://client_data/icons/sword.png')
+	icons['wood_sword'] = load('res://client_data/icons/swordWood.png')
 	icons['spear'] = load('res://client_data/icons/spear.png')
 	icons['bow'] = load('res://client_data/icons/bow.png')
 	icons['chain'] = load('res://client_data/icons/chain_armor.png')
 	icons['axe'] = load('res://client_data/icons/axe.png')
 	icons['chainhat'] = load('res://client_data/icons/chain_hat.png')
 	icons['clothhood'] = load('res://client_data/icons/cloth_hood.png')
+	icons['chainarmor'] = load('res://client_data/icons/chain_armor.png')
 	icons['hammer'] = load('res://client_data/icons/hammer.png')
 	icons['helmet'] = load('res://client_data/icons/helmet.png')
 	icons['leather'] = load('res://client_data/icons/leather_armor.png')
@@ -289,12 +291,12 @@ func load_inventory(inventory):
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
 		var item_value = item_data['value']
-		var item_type = item_data['gear_type']
+		var icon = item_data['icon']
 		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
 		get_node("ui/Inventory/InventoryItemList").add_item(item_title,null,true)
 		get_node("ui/Inventory/InventoryItemList").set_item_metadata(item_index, item_data)
 		get_node("ui/Inventory/InventoryItemList").set_item_tooltip(item_index, item_tooltip)
-		get_node("ui/Inventory/InventoryItemList").set_item_icon(item_index, icons[item_type])
+		get_node("ui/Inventory/InventoryItemList").set_item_icon(item_index, icons[icon])
 		if item_data['equipped']:
 			get_node("ui/Inventory/InventoryItemList").set_item_custom_bg_color(item_index, equipped_color)
 		item_index += 1
@@ -312,12 +314,12 @@ func load_container_inventory(container_name, container_title, inventory):
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
 		var item_value = item_data['value']
-		var item_type = item_data['gear_type']
+		var icon = item_data['icon']
 		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
 		get_node("ui/ContainerInventory/ContainerItemList").add_item(item_title,null,true)
 		get_node("ui/ContainerInventory/ContainerItemList").set_item_metadata(item_index, item_data)
 		get_node("ui/ContainerInventory/ContainerItemList").set_item_tooltip(item_index, item_tooltip)
-		get_node("ui/ContainerInventory/ContainerItemList").set_item_icon(item_index, icons[item_type])
+		get_node("ui/ContainerInventory/ContainerItemList").set_item_icon(item_index, icons[icon])
 		item_index += 1
 		
 		get_node("ui/ContainerInventory").popup_centered()
@@ -336,12 +338,12 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
 		var item_value = item_data['value']
-		var item_type = item_data['gear_type']
+		var icon = item_data['icon']
 		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
 		get_node("ui/ShopInventory/ShopItemList").add_item(item_title,null,true)
 		get_node("ui/ShopInventory/ShopItemList").set_item_metadata(item_index, item_data)
 		get_node("ui/ShopInventory/ShopItemList").set_item_tooltip(item_index, item_tooltip)
-		get_node("ui/ShopInventory/ShopItemList").set_item_icon(item_index, icons[item_type])
+		get_node("ui/ShopInventory/ShopItemList").set_item_icon(item_index, icons[icon])
 		item_index += 1
 		
 		
@@ -357,13 +359,12 @@ func load_shop_inventory(shop_name, shop_title, inventory, player_inventory):
 		var item_hit = item_data['hit']
 		var item_arm = item_data['arm']
 		var item_value = item_data['value']
-		var item_type = item_data['gear_type']
 		var icon = item_data['icon']
 		var item_tooltip = "%s\nDamage: %s\nHit: %s\nArmor: %s\nValue: %s" % [ item_title, item_dam, item_hit, item_arm, item_value ]
 		get_node("ui/ShopInventory/PlayerItemList").add_item(item_title,null,true)
 		get_node("ui/ShopInventory/PlayerItemList").set_item_metadata(item_index, item_data)
 		get_node("ui/ShopInventory/PlayerItemList").set_item_tooltip(item_index, item_tooltip)
-		get_node("ui/ShopInventory/PlayerItemList").set_item_icon(item_index, icons[item_type])
+		get_node("ui/ShopInventory/PlayerItemList").set_item_icon(item_index, icons[icon])
 		item_index += 1
 		
 		
@@ -466,10 +467,9 @@ func _process(delta):
 					
 					if event['type'] == 'playerchat':
 						var msg = "[%s] %s" % [event['title'], event['message']]
-						var chat_panel = get_node("ui/ChatPanel/ChatItemList")
-						chat_panel.add_item(msg)
-						chat_panel.select(chat_panel.get_item_count() - 1)
-						chat_panel.ensure_current_is_visible()
+						get_node("ui/ChatPanel/ChatText").add_text(msg)
+						get_node("ui/ChatPanel/ChatText").newline()
+						get_node("ui/ChatPanel/ChatText").set_scroll_follow(true)
 					
 					elif event['type'] == 'monstermove':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
@@ -569,7 +569,7 @@ func _process(delta):
 						var p = get_node(event['zone'] + '/character/' + event['name'])
 						if p:
 							p.set_armor(event['armor'])
-							_send({'action': 'inventory'})
+							#_send({'action': 'inventory'})
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 					
@@ -577,7 +577,7 @@ func _process(delta):
 						var p = get_node(event['zone'] + '/character/' + event['name'])
 						if p:
 							p.set_weapon(event['weapon'])
-							_send({'action': 'inventory'})
+							#_send({'action': 'inventory'})
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 					
@@ -585,7 +585,7 @@ func _process(delta):
 						var p = get_node(event['zone'] + '/character/' + event['name'])
 						if p:
 							p.set_head(event['head'])
-							_send({'action': 'inventory'})
+							#_send({'action': 'inventory'})
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 							
@@ -769,7 +769,8 @@ func _on_InventoryItemList_item_rmb_selected( index, atpos ):
 	else:
 		item_menu.add_item("Equip",0)
 	item_menu.add_item("Drop",1)
-	item_menu.add_item("Use",2)
+	if item['consumeable'] == true:
+		item_menu.add_item("Use",2)
 	item_menu.connect("item_pressed", self, '_on_inventory_item_action', [item_name])
 	get_node("ui/Inventory/InventoryItemList").add_child(item_menu)
 	item_menu.popup()
@@ -777,18 +778,13 @@ func _on_InventoryItemList_item_rmb_selected( index, atpos ):
 func _on_inventory_item_action(index, item_name):
 	if index == 0:
 		_send({'action': 'equip', 'item': item_name })
-		#_send({'action': 'inventory' })
 	elif index == 1:
 		_send({'action': 'drop', 'item': item_name })
-		#_send({'action': 'inventory' })
 	elif index == 2:
 		_send({'action': 'use', 'item': item_name })
-		#_send({'action': 'inventory' })
 	elif index == 3:
 		_send({'action': 'unequip', 'item': item_name })
-		#_send({'action': 'inventory' })
 	
-
 
 # Login Process
 func set_playeroptions(data):

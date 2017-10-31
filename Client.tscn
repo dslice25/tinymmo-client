@@ -347,6 +347,7 @@ align = 2
 
 [node name="ChatPanel" type="Panel" parent="ui"]
 
+visibility/visible = false
 anchor/left = 2
 anchor/top = 2
 anchor/right = 2
@@ -359,22 +360,6 @@ margin/left = 0.0
 margin/top = 0.666667
 margin/right = 0.2375
 margin/bottom = 0.916667
-
-[node name="ChatItemList" type="ItemList" parent="ui/ChatPanel"]
-
-anchor/right = 2
-anchor/bottom = 2
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 1.0
-margin/bottom = 0.8
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="ChatEntry" type="LineEdit" parent="ui/ChatPanel"]
 
@@ -395,6 +380,22 @@ caret/caret_blink_speed = 0.65
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="ChatText" type="RichTextLabel" parent="ui/ChatPanel"]
+
+anchor/right = 1
+anchor/bottom = 2
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.8
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
 
 [node name="Inventory" type="Panel" parent="ui"]
 
