@@ -457,6 +457,11 @@ func _process(delta):
 			elif data['type'] == 'shopinv':
 				load_shop_inventory(data['name'],data['title'],data['inventory'], data['player_inventory'])
 			
+			elif data['type'] == 'message':
+				get_node("ui/ChatPanel/ChatText").add_text("* " + data['message'])
+				get_node("ui/ChatPanel/ChatText").newline()
+				get_node("ui/ChatPanel/ChatText").set_scroll_follow(true)
+			
 			elif data['type'] == 'events':
 				for event in data['events']:
 					
