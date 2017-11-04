@@ -49,7 +49,7 @@ func _ready():
 	set_process_unhandled_input(true)
 	
 	# Load icons
-	icons['chainhood'] = load('res://client_data/icons/chain_hood.png')
+	icons['chain_hood'] = load('res://client_data/icons/chain_hood.png')
 	icons['wand'] = load('res://client_data/icons/wand.png')
 	icons['sword'] = load('res://client_data/icons/sword.png')
 	icons['wood_sword'] = load('res://client_data/icons/swordWood.png')
@@ -57,12 +57,12 @@ func _ready():
 	icons['bow'] = load('res://client_data/icons/bow.png')
 	icons['chain'] = load('res://client_data/icons/chain_armor.png')
 	icons['axe'] = load('res://client_data/icons/axe.png')
-	icons['chainhat'] = load('res://client_data/icons/chain_hat.png')
-	icons['clothhood'] = load('res://client_data/icons/cloth_hood.png')
-	icons['chainarmor'] = load('res://client_data/icons/chain_armor.png')
+	icons['chain_hat'] = load('res://client_data/icons/chain_hat.png')
+	icons['cloth_hood'] = load('res://client_data/icons/cloth_hood.png')
+	icons['chain_armor'] = load('res://client_data/icons/chain_armor.png')
 	icons['hammer'] = load('res://client_data/icons/hammer.png')
 	icons['helmet'] = load('res://client_data/icons/helmet.png')
-	icons['leather'] = load('res://client_data/icons/leather_armor.png')
+	icons['leather_armor'] = load('res://client_data/icons/leather_armor.png')
 	icons['plate'] = load('res://client_data/icons/plate_armor.png')
 	icons['blue_potion'] = load('res://client_data/icons/potionBlue.png')
 	icons['red_potion'] = load('res://client_data/icons/potionRed.png')
@@ -808,7 +808,7 @@ func set_playeroptions(data):
 	
 	get_node("ui/CharacterCreation/SelectClass").add_item("Fighter", 0)
 	get_node("ui/CharacterCreation/SelectClass").add_item("Mage", 1)
-	get_node("ui/CharacterCreation/SelectClass").add_item("Thief", 2)
+	get_node("ui/CharacterCreation/SelectClass").add_item("Ranger", 2)
 	get_node("ui/CharacterCreation/SelectClass").add_item("Cleric", 3)
 
 func try_connect():
@@ -840,7 +840,12 @@ func _on_EnterButton_pressed():
 	var sel_haircolor =  get_node("ui/CharacterCreation/SelectHairColor").get_selected()
 	var sel_class =  get_node("ui/CharacterCreation/SelectClass").get_selected()
 
-	_send({"action": "createplayer", "name": name, "gender": sel_gender, "hairstyle": sel_hairstyle, "haircolor": sel_haircolor, "class": sel_class })
+	var gender = get_node("ui/CharacterCreation/SelectGender").get_item_text(sel_gender)
+	var hairstyle = get_node("ui/CharacterCreation/SelectHairStyle").get_item_text(sel_hairstyle)
+	var haircolor = get_node("ui/CharacterCreation/SelectHairColor").get_item_text(sel_haircolor)
+	var playerclass = get_node("ui/CharacterCreation/SelectClass").get_item_text(sel_class)
+	
+	_send({"action": "createplayer", "name": name, "gender": gender, "hairstyle": hairstyle, "haircolor": haircolor, "playerclass": playerclass })
 
 
 
