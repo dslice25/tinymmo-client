@@ -561,7 +561,6 @@ __meta__ = {
 
 [node name="Character" type="Panel" parent="ui"]
 
-editor/display_folded = true
 visibility/visible = false
 anchor/left = 2
 anchor/top = 2
@@ -583,10 +582,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 3.0
-margin/top = 3.0
-margin/right = -2.0
-margin/bottom = 17.0
+margin/left = -2.0
+margin/top = 0.0
+margin/right = 114.0
+margin/bottom = 30.0
 text = "Character"
 align = 1
 valign = 1
@@ -893,6 +892,57 @@ margin/left = 48.0
 margin/top = 159.0
 margin/right = 106.0
 margin/bottom = 183.0
+placeholder/text = "0"
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="PlayerClass" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 128.0
+margin/top = 0.0
+margin/right = 238.0
+margin/bottom = 30.0
+text = "Class"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NextLevel" type="Label" parent="ui/Character"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 128.0
+margin/top = 160.0
+margin/right = 168.0
+margin/bottom = 180.0
+text = "Next"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NextLevelValue" type="LineEdit" parent="ui/Character"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 168.0
+margin/top = 160.0
+margin/right = 226.0
+margin/bottom = 184.0
 placeholder/text = "0"
 placeholder/alpha = 0.6
 editable = false

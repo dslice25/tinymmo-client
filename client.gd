@@ -383,6 +383,7 @@ func load_stats(stats):
 	var hp = stats['hp']
 	var mp = stats['mp']
 	var expp = stats['exp']
+	var playerclass = stats['playerclass']
 	var title_text = "%s (%s)" % [title, level]
 	get_node("ui/MenuBar/HBoxContainer/PlayerTitle").set_text(title_text)
 	
@@ -409,6 +410,7 @@ func load_stats(stats):
 	get_node("ui/Character/DAMValue").set_text(str(dam))
 	get_node("ui/Character/ARMValue").set_text(str(arm))
 	get_node("ui/Character/SPIValue").set_text(str(spi))
+	get_node("ui/Character/PlayerClass").set_text(playerclass)
 	
 func load_quests(quests):
 	print("Loading quests")
