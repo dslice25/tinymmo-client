@@ -1143,6 +1143,7 @@ flat = false
 
 [node name="CharacterCreation" type="PopupPanel" parent="ui"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2

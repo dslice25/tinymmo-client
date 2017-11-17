@@ -36,8 +36,7 @@ func _ready():
 	#client = get_node("/root/global").connection
 
 	# Load zones
-	zones['start'] = preload('res://zones/start.scn')
-	zones['start2'] = preload('res://zones/start2.scn')
+	zones['overworld'] = preload('res://overworld.scn')
 	
 	# Load instance scenes
 	character_scene = preload('res://Character.tscn')
