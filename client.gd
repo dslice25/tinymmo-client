@@ -429,13 +429,19 @@ func _process(delta):
 		data.parse_json(input_data)
 
 		if not data.empty():
-			if data['type'] == 'playeroptions':
+			if data['type'] == 'authenticationfailed':
+				print(data)
+				
+			elif data['type'] == 'playeroptions':
 				set_playeroptions(data)
-				if not get_node("ui/CharacterCreation").is_visible():
+				if get_node("ui/Login").is_visible():
+					get_node("ui/Login").hide()
+					
+				if get_node("ui/CharacterCreation").is_hidden():
 					get_node("ui/CharacterCreation").popup_centered()
 				
-			elif data['type'] == 'loginsucceeded':
-				get_node("ui/CharacterCreation").queue_free()
+			elif data['type'] == 'entergame':
+				get_node("ui/CharacterCreation").hide()
 				get_gamestate()
 				
 			elif data['type'] == 'refresh':
@@ -795,7 +801,8 @@ func _on_inventory_item_action(index, item_name):
 
 # Login Process
 func set_playeroptions(data):
-	# Gender options
+	
+	# Create Player
 	get_node("ui/CharacterCreation/SelectGender").add_item("Male", 0)
 	get_node("ui/CharacterCreation/SelectGender").add_item("Female", 1)
 	
@@ -808,10 +815,21 @@ func set_playeroptions(data):
 	get_node("ui/CharacterCreation/SelectHairColor").add_item("Brunette", 2)
 	get_node("ui/CharacterCreation/SelectHairColor").add_item("White", 3)
 	
-	get_node("ui/CharacterCreation/SelectClass").add_item("Fighter", 0)
-	get_node("ui/CharacterCreation/SelectClass").add_item("Mage", 1)
-	get_node("ui/CharacterCreation/SelectClass").add_item("Ranger", 2)
-	get_node("ui/CharacterCreation/SelectClass").add_item("Cleric", 3)
+	var idx = 0
+	for pc in data['classes']:
+		var meta = data['classes'][pc]
+		var title = data['classes'][pc]['title']
+		get_node("ui/CharacterCreation/SelectClass").add_item(title,idx)
+		get_node("ui/CharacterCreation/SelectClass").set_item_metadata(idx,meta)
+		idx += 1
+	
+	var idx = 0
+	for c in data['characters']:
+		var meta = data['characters'][c]
+		var title = data['characters'][c]['title']
+		get_node("ui/CharacterCreation/ExistingChar").add_item(title,idx)
+		get_node("ui/CharacterCreation/ExistingChar").set_item_metadata(idx,meta)
+		idx += 1
 
 func try_connect():
 	var ip = get_node("ui/Connection/IPEntry").get_text()
@@ -833,9 +851,9 @@ func try_connect():
 func _on_ConnectButton_pressed():
 	if try_connect():
 		get_node("ui/Connection").queue_free()
+		get_node("ui/Login").popup_centered()
 
-
-func _on_EnterButton_pressed():
+func _on_CreateChar_pressed():
 	var name = get_node("ui/CharacterCreation/PlayerNameEntry").get_text()
 	var sel_gender = get_node("ui/CharacterCreation/SelectGender").get_selected()
 	var sel_hairstyle =  get_node("ui/CharacterCreation/SelectHairStyle").get_selected()
@@ -845,11 +863,16 @@ func _on_EnterButton_pressed():
 	var gender = get_node("ui/CharacterCreation/SelectGender").get_item_text(sel_gender)
 	var hairstyle = get_node("ui/CharacterCreation/SelectHairStyle").get_item_text(sel_hairstyle)
 	var haircolor = get_node("ui/CharacterCreation/SelectHairColor").get_item_text(sel_haircolor)
-	var playerclass = get_node("ui/CharacterCreation/SelectClass").get_item_text(sel_class)
 	
-	_send({"action": "createplayer", "name": name, "gender": gender, "hairstyle": hairstyle, "haircolor": haircolor, "playerclass": playerclass })
+	var pc_meta = get_node("ui/CharacterCreation/SelectClass").get_selected_metadata()
+	print(pc_meta)
+	
+	_send({"action": "createplayer", "name": name, "gender": gender, "hairstyle": hairstyle, "haircolor": haircolor, "playerclass": pc_meta['name'] })
 
-
+func _on_UseChar_pressed():
+	var selected = get_node("ui/CharacterCreation/ExistingChar").get_selected()
+	var meta = get_node("ui/CharacterCreation/ExistingChar").get_item_metadata(selected)
+	_send({"action": "chooseplayer", "name": meta['name'] })
 
 func _on_InventoryButton_pressed():
 	if get_node("ui/Inventory").is_visible():
@@ -911,6 +934,11 @@ func _on_ChatMenu_pressed():
 	else:
 		get_node("ui/ChatPanel").show()
 
+
+func _on_LoginButton_pressed():
+	var username = get_node("ui/Login/Username").get_text()
+	var password = get_node("ui/Login/Password").get_text()
+	_send({'action': 'login', 'username': username, 'password': password })
 
 
 func _on_RefreshButton_pressed():
@@ -1026,3 +1054,7 @@ func _on_HotButton4_pressed():
 func _on_ChatEntry_text_entered( text ):
 	_send({'action': 'chat', 'message': text })
 	get_node("ui/ChatPanel/ChatEntry").clear()
+
+
+
+

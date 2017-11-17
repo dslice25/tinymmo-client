@@ -347,7 +347,8 @@ align = 2
 
 [node name="ChatPanel" type="Panel" parent="ui"]
 
-visibility/visible = false
+editor/display_folded = true
+visibility/self_opacity = 0.54
 anchor/left = 2
 anchor/top = 2
 anchor/right = 2
@@ -358,7 +359,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.666667
-margin/right = 0.2375
+margin/right = 0.4
 margin/bottom = 0.916667
 
 [node name="ChatEntry" type="LineEdit" parent="ui/ChatPanel"]
@@ -561,6 +562,7 @@ __meta__ = {
 
 [node name="Character" type="Panel" parent="ui"]
 
+editor/display_folded = true
 visibility/visible = false
 anchor/left = 2
 anchor/top = 2
@@ -1047,6 +1049,7 @@ __meta__ = {
 
 [node name="Connection" type="PopupPanel" parent="ui"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1140,14 +1143,13 @@ flat = false
 
 [node name="CharacterCreation" type="PopupPanel" parent="ui"]
 
-visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 314.0
+margin/left = 210.0
 margin/top = 175.0
-margin/right = 611.0
+margin/right = 700.0
 margin/bottom = 376.0
 popup/exclusive = true
 
@@ -1161,7 +1163,7 @@ margin/left = 52.0
 margin/top = 13.0
 margin/right = 267.0
 margin/bottom = 27.0
-text = "New Player"
+text = "New Character"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
@@ -1174,10 +1176,10 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 40.0
-margin/top = 43.0
-margin/right = 121.0
-margin/bottom = 57.0
-text = "Player Name"
+margin/top = 45.0
+margin/right = 142.0
+margin/bottom = 59.0
+text = "Character Name"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1197,7 +1199,7 @@ focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
 
-[node name="EnterButton" type="Button" parent="ui/CharacterCreation"]
+[node name="CreateChar" type="Button" parent="ui/CharacterCreation"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1210,7 +1212,7 @@ margin/bottom = 184.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "Join Game"
+text = "Create Character"
 flat = false
 
 [node name="SelectGender" type="OptionButton" parent="ui/CharacterCreation"]
@@ -1284,6 +1286,57 @@ flat = false
 align = 0
 selected = -1
 items = [  ]
+
+[node name="ExistingChar" type="OptionButton" parent="ui/CharacterCreation"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 300.0
+margin/top = 55.0
+margin/right = 480.0
+margin/bottom = 75.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+align = 0
+selected = -1
+items = [  ]
+
+[node name="ExistingCharLabel" type="Label" parent="ui/CharacterCreation"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 300.0
+margin/top = 25.0
+margin/right = 480.0
+margin/bottom = 45.0
+text = "Existing Characters"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="UseChar" type="Button" parent="ui/CharacterCreation"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 320.0
+margin/top = 85.0
+margin/right = 451.0
+margin/bottom = 105.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Use This Character"
+flat = false
 
 [node name="ShopInventory" type="PopupPanel" parent="ui"]
 
@@ -1440,6 +1493,100 @@ shortcut = null
 text = "X"
 flat = false
 
+[node name="Login" type="PopupPanel" parent="ui"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 330.0
+margin/top = 160.0
+margin/right = 540.0
+margin/bottom = 270.0
+popup/exclusive = false
+
+[node name="usernamelabel" type="Label" parent="ui/Login"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 20.0
+margin/top = 30.0
+margin/right = 80.0
+margin/bottom = 50.0
+text = "Username"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="passwordlabel" type="Label" parent="ui/Login"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 110.0
+margin/top = 30.0
+margin/right = 176.0
+margin/bottom = 50.0
+text = "Password"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Username" type="LineEdit" parent="ui/Login"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 50.0
+margin/right = 100.0
+margin/bottom = 74.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="Password" type="LineEdit" parent="ui/Login"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 110.0
+margin/top = 50.0
+margin/right = 190.0
+margin/bottom = 74.0
+placeholder/alpha = 0.6
+secret = true
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="LoginButton" type="Button" parent="ui/Login"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 70.0
+margin/top = 80.0
+margin/right = 130.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Login"
+flat = false
+
 [connection signal="pressed" from="ui/MenuBar/HBoxContainer/ChatMenu" to="." method="_on_ChatMenu_pressed"]
 
 [connection signal="pressed" from="ui/MenuBar/HBoxContainer/HotButton1" to="." method="_on_HotButton1_pressed"]
@@ -1470,7 +1617,9 @@ flat = false
 
 [connection signal="pressed" from="ui/Connection/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 
-[connection signal="pressed" from="ui/CharacterCreation/EnterButton" to="." method="_on_EnterButton_pressed"]
+[connection signal="pressed" from="ui/CharacterCreation/CreateChar" to="." method="_on_CreateChar_pressed"]
+
+[connection signal="pressed" from="ui/CharacterCreation/UseChar" to="." method="_on_UseChar_pressed"]
 
 [connection signal="item_rmb_selected" from="ui/ShopInventory/ShopItemList" to="." method="_on_ShopItemList_item_rmb_selected"]
 
@@ -1481,5 +1630,7 @@ flat = false
 [connection signal="item_rmb_selected" from="ui/ContainerInventory/ContainerItemList" to="." method="_on_ContainerItemList_item_rmb_selected"]
 
 [connection signal="pressed" from="ui/ContainerInventory/ContainerInventoryCloseButton" to="." method="_on_ContainerInventoryCloseButton_pressed"]
+
+[connection signal="pressed" from="ui/Login/LoginButton" to="." method="_on_LoginButton_pressed"]
 
 
