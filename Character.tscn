@@ -76,7 +76,7 @@ tracks/0/keys = {
 
 resource/name = "cast_east"
 length = 0.7
-loop = false
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -93,7 +93,7 @@ tracks/0/keys = {
 
 resource/name = "cast_north"
 length = 0.7
-loop = false
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -110,7 +110,7 @@ tracks/0/keys = {
 
 resource/name = "cast_south"
 length = 0.7
-loop = false
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -127,7 +127,7 @@ tracks/0/keys = {
 
 resource/name = "cast_west"
 length = 0.7
-loop = false
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -563,7 +563,7 @@ __meta__ = {
 
 vframes = 21
 hframes = 13
-frame = 195
+frame = 45
 __meta__ = {
 "_edit_lock_": true
 }

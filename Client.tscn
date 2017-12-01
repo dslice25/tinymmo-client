@@ -47,7 +47,6 @@ scale = Vector2( 1, 1 )
 
 [node name="MenuBar" type="PanelContainer" parent="ui"]
 
-editor/display_folded = true
 anchor/top = 2
 anchor/right = 1
 anchor/bottom = 1
@@ -118,6 +117,7 @@ margin/bottom = 39.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui/MenuBar/HBoxContainer"]
 
+editor/display_folded = true
 rect/min_size = Vector2( 100, 0 )
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -277,7 +277,7 @@ icon = ExtResource( 3 )
 flat = false
 align = 0
 
-[node name="CharacterButton1" type="Button" parent="ui/MenuBar/HBoxContainer"]
+[node name="CharacterButton" type="Button" parent="ui/MenuBar/HBoxContainer"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -954,7 +954,6 @@ caret/caret_blink_speed = 0.65
 
 [node name="Options" type="Panel" parent="ui"]
 
-editor/display_folded = true
 visibility/visible = false
 anchor/left = 2
 anchor/top = 2
@@ -965,9 +964,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.69125
-margin/top = 0.568333
+margin/top = 0.566667
 margin/right = 0.9925
-margin/bottom = 0.893333
+margin/bottom = 0.891667
 
 [node name="OptionLabel" type="Label" parent="ui/Options"]
 
@@ -1143,6 +1142,7 @@ flat = false
 
 [node name="CharacterCreation" type="PopupPanel" parent="ui"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1496,6 +1496,7 @@ flat = false
 
 [node name="Login" type="PopupPanel" parent="ui"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1600,7 +1601,7 @@ flat = false
 
 [connection signal="pressed" from="ui/MenuBar/HBoxContainer/InventoryButton" to="." method="_on_InventoryButton_pressed"]
 
-[connection signal="pressed" from="ui/MenuBar/HBoxContainer/CharacterButton1" to="." method="_on_CharacterButton1_pressed"]
+[connection signal="pressed" from="ui/MenuBar/HBoxContainer/CharacterButton" to="." method="_on_CharacterButton_pressed"]
 
 [connection signal="pressed" from="ui/MenuBar/HBoxContainer/AbilitiesButton" to="." method="_on_AbilitiesButton_pressed"]
 

@@ -59,7 +59,7 @@ func go(dir, start, end):
 func wait():
 	get_node("Sprite/AnimationPlayer").play("wait_" + direction)
 
-func attack():
+func attack(hit):
 	get_node("Sprite/AnimationPlayer").play("attack_" + direction)
 	
 func die():

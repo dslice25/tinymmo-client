@@ -199,7 +199,7 @@ func wait():
 	get_node("weapon/AnimationPlayer").play("wait_" + direction)
 	get_node("ammo/AnimationPlayer").play("wait_" + direction)
 
-func thrust():
+func thrust(hit):
 	get_node("body/AnimationPlayer").play("thrust_" + direction)
 	get_node("torso/AnimationPlayer").play("thrust_" + direction)
 	get_node("feet/AnimationPlayer").play("thrust_" + direction)
@@ -211,7 +211,7 @@ func thrust():
 	get_node("weapon/AnimationPlayer").play("thrust_" + direction)
 	get_node("ammo/AnimationPlayer").play("thrust_" + direction)
 
-func cast():
+func cast(hit):
 	get_node("body/AnimationPlayer").play("cast_" + direction)
 	get_node("torso/AnimationPlayer").play("cast_" + direction)
 	get_node("feet/AnimationPlayer").play("cast_" + direction)
@@ -223,7 +223,7 @@ func cast():
 	get_node("weapon/AnimationPlayer").play("cast_" + direction)
 	get_node("ammo/AnimationPlayer").play("cast_" + direction)
 
-func bow():
+func bow(hit):
 	get_node("body/AnimationPlayer").play("bow_" + direction)
 	get_node("torso/AnimationPlayer").play("bow_" + direction)
 	get_node("feet/AnimationPlayer").play("bow_" + direction)
@@ -259,7 +259,7 @@ func ressurect():
 	get_node("weapon/AnimationPlayer").play("ressurect")
 	get_node("ammo/AnimationPlayer").play("ressurect")
 
-func slash():
+func slash(hit):
 	get_node("body/AnimationPlayer").play("slash_" + direction)
 	get_node("torso/AnimationPlayer").play("slash_" + direction)
 	get_node("feet/AnimationPlayer").play("slash_" + direction)

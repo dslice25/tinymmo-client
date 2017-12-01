@@ -62,6 +62,7 @@ func _ready():
 	icons['hammer'] = load('res://client_data/icons/hammer.png')
 	icons['helmet'] = load('res://client_data/icons/helmet.png')
 	icons['leather_armor'] = load('res://client_data/icons/leather_armor.png')
+	icons['leather_cap'] = load('res://client_data/icons/leather_cap.png')
 	icons['plate'] = load('res://client_data/icons/plate_armor.png')
 	icons['blue_potion'] = load('res://client_data/icons/potionBlue.png')
 	icons['red_potion'] = load('res://client_data/icons/potionRed.png')
@@ -104,8 +105,9 @@ func set_target(sig, target_name, target_type):
 
 	for child in get_node(player_zone + '/character').get_children():
 		child.set_is_target(false)
-
-	get_node(player_zone + '/character/' + target_name).set_is_target(true)
+	
+	if get_node(player_zone + '/character/').has_node(target_name):
+		get_node(player_zone + '/character/' + target_name).set_is_target(true)
 	
 	
 func get_gamestate():
@@ -446,6 +448,9 @@ func _process(delta):
 			elif data['type'] == 'refresh':
 				refresh(data)
 			
+			elif data['type'] == 'targetinfo':
+				pass
+				
 			elif data['type'] == 'playerstats':
 				load_stats(data['stats'])
 					
@@ -476,6 +481,7 @@ func _process(delta):
 					if event.has('zone'):
 						if not get_node(event['zone']):
 							get_gamestate()
+							return
 					
 					if event['type'] == 'playerchat':
 						var msg = "[%s] %s" % [event['title'], event['message']]
@@ -613,25 +619,25 @@ func _process(delta):
 					# COMBAT STUFF
 					elif event['type'] == 'playerthrust':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).thrust()
+							get_node(event['zone'] + '/character/' + event['name']).thrust(event['hit'])
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 							
 					elif event['type'] == 'playercast':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).cast()
+							get_node(event['zone'] + '/character/' + event['name']).cast(event['hit'])
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 							
 					elif event['type'] == 'playerslash':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).slash()
+							get_node(event['zone'] + '/character/' + event['name']).slash(event['hit'])
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 							
 					elif event['type'] == 'playerbow':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).bow()
+							get_node(event['zone'] + '/character/' + event['name']).bow(event['hit'])
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
 							
@@ -643,25 +649,25 @@ func _process(delta):
 							
 					elif event['type'] == 'npcthrust':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).thrust()
+							get_node(event['zone'] + '/character/' + event['name']).thrust(event['hit'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
 							
 					elif event['type'] == 'npccast':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).cast()
+							get_node(event['zone'] + '/character/' + event['name']).cast(event['hit'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
 							
 					elif event['type'] == 'npcslash':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).slash()
+							get_node(event['zone'] + '/character/' + event['name']).slash(event['hit'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
 							
 					elif event['type'] == 'npcbow':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).bow()
+							get_node(event['zone'] + '/character/' + event['name']).bow(event['hit'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
 							
@@ -673,7 +679,7 @@ func _process(delta):
 							
 					elif event['type'] == 'monsterattack':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
-							get_node(event['zone'] + '/character/' + event['name']).attack()
+							get_node(event['zone'] + '/character/' + event['name']).attack(event['hit'])
 						else:
 							_send({'action': 'getmonster', 'name': event['name']})
 							
@@ -916,7 +922,7 @@ func _on_OptionsButton_pressed():
 		get_node("ui/Quests").hide()
 		get_node("ui/Character").hide()
 
-func _on_CharacterButton1_pressed():
+func _on_CharacterButton_pressed():
 	if get_node("ui/Character").is_visible():
 		get_node("ui/Character").hide()
 	else:
