@@ -1,8 +1,38 @@
-[gd_scene load_steps=35 format=1]
+[gd_scene load_steps=74 format=1]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://client_data/Universal-LPC-spritesheet/body/male/light.png" type="Texture" id=2]
 [ext_resource path="res://client_data/Universal-LPC-spritesheet/weapons/oversize/right hand/male/longsword_male.png" type="Texture" id=3]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/armor-light.wav" type="Sample" id=4]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/beads.wav" type="Sample" id=5]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/bottle.wav" type="Sample" id=6]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/bubble.wav" type="Sample" id=7]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/bubble2.wav" type="Sample" id=8]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/bubble3.wav" type="Sample" id=9]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/chainmail1.wav" type="Sample" id=10]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/chainmail2.wav" type="Sample" id=11]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/cloth.wav" type="Sample" id=12]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/cloth-heavy.wav" type="Sample" id=13]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/coin.wav" type="Sample" id=14]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/coin2.wav" type="Sample" id=15]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/coin3.wav" type="Sample" id=16]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/magic1.wav" type="Sample" id=17]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/metal-ringing.wav" type="Sample" id=18]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/metal-small1.wav" type="Sample" id=19]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/metal-small2.wav" type="Sample" id=20]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/metal-small3.wav" type="Sample" id=21]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr1.wav" type="Sample" id=22]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime1.wav" type="Sample" id=23]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/spell.wav" type="Sample" id=24]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/swing.wav" type="Sample" id=25]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/swing2.wav" type="Sample" id=26]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/swing3.wav" type="Sample" id=27]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/sword-unsheathe.wav" type="Sample" id=28]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/sword-unsheathe2.wav" type="Sample" id=29]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/sword-unsheathe3.wav" type="Sample" id=30]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/sword-unsheathe4.wav" type="Sample" id=31]
+[ext_resource path="res://client_data/RPG Sound Pack/battle/sword-unsheathe5.wav" type="Sample" id=32]
+[ext_resource path="res://client_data/RPG Sound Pack/inventory/wood-small.wav" type="Sample" id=33]
 
 [sub_resource type="Animation" id=1]
 
@@ -76,7 +106,7 @@ tracks/0/keys = {
 
 resource/name = "cast_east"
 length = 0.7
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -93,7 +123,7 @@ tracks/0/keys = {
 
 resource/name = "cast_north"
 length = 0.7
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -110,7 +140,7 @@ tracks/0/keys = {
 
 resource/name = "cast_south"
 length = 0.7
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -127,7 +157,7 @@ tracks/0/keys = {
 
 resource/name = "cast_west"
 length = 0.7
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -436,8 +466,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=27]
 
-resource/name = "slash_east"
-length = 0.6
+resource/name = "thrust_east"
+length = 0.8
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -445,16 +475,16 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 18, 19, 20, 21, 22, 23 ]
+"values": [ 24, 25, 26, 27, 28, 29, 30, 31 ]
 }
 
 [sub_resource type="Animation" id=28]
 
-resource/name = "slash_north"
-length = 0.6
+resource/name = "thrust_north"
+length = 0.7
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -462,16 +492,16 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
+"values": [ 0, 1, 2, 3, 4, 5, 0 ]
 }
 
 [sub_resource type="Animation" id=29]
 
-resource/name = "slash_south"
-length = 0.6
+resource/name = "thrust_south"
+length = 0.8
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -479,16 +509,16 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 12, 13, 14, 15, 16, 17 ]
+"values": [ 16, 17, 18, 19, 20, 21, 22, 23 ]
 }
 
 [sub_resource type="Animation" id=30]
 
-resource/name = "slash_west"
-length = 0.6
+resource/name = "thrust_west"
+length = 0.8
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -496,17 +526,348 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 6, 7, 8, 9, 10, 11 ]
+"values": [ 8, 9, 10, 11, 12, 13, 14, 15 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=31]
+[sub_resource type="Animation" id=31]
+
+resource/name = "wait_east"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 24 ]
+}
+
+[sub_resource type="Animation" id=32]
+
+resource/name = "wait_north"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=33]
+
+resource/name = "wait_south"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 16 ]
+}
+
+[sub_resource type="Animation" id=34]
+
+resource/name = "wait_west"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+
+[sub_resource type="Animation" id=35]
+
+resource/name = "walk_east"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 24 ]
+}
+
+[sub_resource type="Animation" id=36]
+
+resource/name = "walk_north"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=37]
+
+resource/name = "walk_south"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 16 ]
+}
+
+[sub_resource type="Animation" id=38]
+
+resource/name = "walk_west"
+length = 0.1
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=39]
 
 custom_solver_bias = 0.0
 radius = 7.88237
 height = 27.4528
+
+[sub_resource type="SampleLibrary" id=40]
+
+samples/armor-light = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 4 )
+}
+samples/beads = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 5 )
+}
+samples/bottle = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 6 )
+}
+samples/bubble = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 7 )
+}
+samples/bubble2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 8 )
+}
+samples/bubble3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 9 )
+}
+samples/chainmail1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 10 )
+}
+samples/chainmail2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 11 )
+}
+samples/cloth = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 12 )
+}
+samples/cloth-heavy = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 13 )
+}
+samples/coin = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 14 )
+}
+samples/coin2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 15 )
+}
+samples/coin3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 16 )
+}
+samples/magic1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 17 )
+}
+samples/metal-ringing = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 18 )
+}
+samples/metal-small1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 19 )
+}
+samples/metal-small2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 20 )
+}
+samples/metal-small3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 21 )
+}
+samples/mnstr1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 22 )
+}
+samples/slime1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 23 )
+}
+samples/spell = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 24 )
+}
+samples/swing = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 25 )
+}
+samples/swing2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 26 )
+}
+samples/swing2_1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 26 )
+}
+samples/swing3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 27 )
+}
+samples/swing_1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 25 )
+}
+samples/sword-unsheathe = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 28 )
+}
+samples/sword-unsheathe2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 29 )
+}
+samples/sword-unsheathe3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 30 )
+}
+samples/sword-unsheathe4 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 31 )
+}
+samples/sword-unsheathe5 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 32 )
+}
+samples/wood-small = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 33 )
+}
 
 [node name="Character" type="Node2D"]
 
@@ -563,7 +924,7 @@ __meta__ = {
 
 vframes = 21
 hframes = 13
-frame = 45
+frame = 39
 __meta__ = {
 "_edit_lock_": true
 }
@@ -1005,16 +1366,14 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="os_weapon" type="Sprite" parent="."]
+[node name="os_sword" type="Sprite" parent="."]
 
+texture = ExtResource( 3 )
 vframes = 4
 hframes = 6
-frame = 23
-__meta__ = {
-"_edit_lock_": true
-}
+frame = 16
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="os_weapon"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="os_sword"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
@@ -1023,6 +1382,42 @@ anims/slash_east = SubResource( 27 )
 anims/slash_north = SubResource( 28 )
 anims/slash_south = SubResource( 29 )
 anims/slash_west = SubResource( 30 )
+anims/wait_east = SubResource( 31 )
+anims/wait_north = SubResource( 32 )
+anims/wait_south = SubResource( 33 )
+anims/wait_west = SubResource( 34 )
+anims/walk_east = SubResource( 35 )
+anims/walk_north = SubResource( 36 )
+anims/walk_south = SubResource( 37 )
+anims/walk_west = SubResource( 38 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="os_spear" type="Sprite" parent="."]
+
+vframes = 4
+hframes = 8
+frame = 15
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="os_spear"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/thrust_east = SubResource( 27 )
+anims/thrust_north = SubResource( 28 )
+anims/thrust_south = SubResource( 29 )
+anims/thrust_west = SubResource( 30 )
+anims/wait_east = SubResource( 31 )
+anims/wait_north = SubResource( 32 )
+anims/wait_south = SubResource( 33 )
+anims/wait_west = SubResource( 34 )
+anims/walk_east = SubResource( 35 )
+anims/walk_north = SubResource( 36 )
+anims/walk_south = SubResource( 37 )
+anims/walk_west = SubResource( 38 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1103,7 +1498,7 @@ __meta__ = {
 [node name="Area2D" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 31 )
+shapes/0/shape = SubResource( 39 )
 shapes/0/transform = Matrix32( 1.84615, 0, 0, 1.08279, 0, 5.98138 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -1118,12 +1513,23 @@ __meta__ = {
 
 transform/pos = Vector2( 0, 5.98138 )
 transform/scale = Vector2( 1.84615, 1.08279 )
-shape = SubResource( 31 )
+shape = SubResource( 39 )
 trigger = false
 _update_shape_index = 0
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="SamplePlayer2D" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 40 )
+config/pitch_random = 0.0
 
 [connection signal="tween_complete" from="Tween" to="." method="_on_Tween_tween_complete"]
 

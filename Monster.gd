@@ -8,12 +8,14 @@ var direction = 'south'
 var tempElapsed = 0
 var title = 'Noname'
 var dest = null
+var sounds = null
 
 signal targeted
 
-func set_monster(set_title, x, y, source):
+func set_monster(set_title, x, y, source, set_sounds):
 	
 	title = set_title
+	sounds = set_sounds
 	
 	set_pos(Vector2(x * 32, y * 32))
 	dest = Vector2(x * 32, y * 32)
@@ -39,6 +41,7 @@ func heal(hp):
 func take_damage(hp):
 	get_node("StatusInfo").set_text("-%s" % hp)
 	get_node("StatusInfo").set("custom_colors/font_color", Color(255.0,0.0,0.0))
+	get_node("SamplePlayer2D").play('slime2')
 	flash_statusinfo()
 	
 func flash_statusinfo():
@@ -61,7 +64,11 @@ func wait():
 
 func attack(hit):
 	get_node("Sprite/AnimationPlayer").play("attack_" + direction)
-	
+	get_node("SamplePlayer2D").play('bite-small')
+
+func face(set_direction):
+	direction = set_direction
+
 func die():
 	pass
 

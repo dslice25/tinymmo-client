@@ -48,6 +48,10 @@ func _ready():
 	set_process_unhandled_input(true)
 	
 	# Load icons
+	icons['statue'] = load('res://client_data/icons/statue.png')
+	icons['coin'] = load('res://client_data/icons/coin.png')
+	icons['dagger'] = load('res://client_data/icons/dagger.png')
+	icons['longsword'] = load('res://client_data/icons/upg_sword.png')
 	icons['chain_hood'] = load('res://client_data/icons/chain_hood.png')
 	icons['wand'] = load('res://client_data/icons/wand.png')
 	icons['sword'] = load('res://client_data/icons/sword.png')
@@ -59,6 +63,7 @@ func _ready():
 	icons['chain_hat'] = load('res://client_data/icons/chain_hat.png')
 	icons['cloth_hood'] = load('res://client_data/icons/cloth_hood.png')
 	icons['chain_armor'] = load('res://client_data/icons/chain_armor.png')
+	icons['plate_armor'] = load('res://client_data/icons/plate_armor.png')
 	icons['hammer'] = load('res://client_data/icons/hammer.png')
 	icons['helmet'] = load('res://client_data/icons/helmet.png')
 	icons['leather_armor'] = load('res://client_data/icons/leather_armor.png')
@@ -78,6 +83,11 @@ func _ready():
 	icons['ice_spike'] = load('res://client_data/icons/ice_spike32.png')
 	icons['ice_spikes'] = load('res://client_data/icons/ice_spikes32.png')
 	icons['ice_shield'] = load('res://client_data/icons/ice_shield32.png')
+	icons['red_gem'] = load('res://client_data/icons/gemRed.png')
+	icons['blue_gem'] = load('res://client_data/icons/gemBlue.png')
+	icons['green_gem'] = load('res://client_data/icons/gemGreen.png')
+	icons['green_gem'] = load('res://client_data/icons/gemGreen.png')
+	icons['upg_spear'] = load('res://client_data/icons/upg_spear.png')
 	
 	get_node("ui/Connection").popup_centered()
 	
@@ -144,8 +154,9 @@ func refresh(data):
 		var haircolor = data['players'][player]['haircolor']
 		var hairstyle = data['players'][player]['hairstyle']
 		var zone = data['players'][player]['zone']
+		var sounds = data['players'][player]['sounds']
 		
-		add_character(player, title, 'player', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, false, false, false)
+		add_character(player, title, 'player', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, false, false, false, sounds)
 	
 	# Load npcs
 	for npc in data['npcs']:
@@ -163,8 +174,9 @@ func refresh(data):
 		var villan = data['npcs'][npc]['villan']
 		var shop = data['npcs'][npc]['shop']
 		var quest = data['npcs'][npc]['quest']
+		var sounds = data['npcs'][npc]['sounds']
 		
-		add_character(npc, title, 'npc', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest)
+		add_character(npc, title, 'npc', x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest, sounds)
 		
 	
 	# Load monsters
@@ -174,8 +186,9 @@ func refresh(data):
 		var y = data['monsters'][monster]['y']
 		var source = data['monsters'][monster]['source']
 		var zone = data['monsters'][monster]['zone']
+		var sounds = data['monsters'][monster]['sounds']
 		
-		add_monster(monster, title, x, y, source, zone)
+		add_monster(monster, title, x, y, source, zone, sounds)
 		
 	# TODO: container
 	for container in data['containers']:
@@ -198,6 +211,11 @@ func refresh(data):
 	cam.set_limit(MARGIN_RIGHT, map_w)
 	player_node.add_child(cam)
 	cam.make_current()
+	
+	# Start playing music
+	if get_node("ui/MenuBar").is_hidden():
+		get_node("ui/MenuBar").show()
+		get_node("ui/MenuBar/StreamPlayer").play()
 	
 	
 func _send(data):
@@ -228,19 +246,19 @@ func add_container(name, title, x, y, zone):
 		new_container.connect('open_container', self, 'get_container_inventory', [ name ])
 		get_node(zone + '/character').add_child(new_container)
 
-func add_monster(name, title, x, y, source, zone):
+func add_monster(name, title, x, y, source, zone, sounds):
 	if get_node(zone + '/character'):
 		var new_monster = monster_scene.instance()
 		new_monster.set_name(name)
-		new_monster.set_monster(title, x, y, source)
+		new_monster.set_monster(title, x, y, source, sounds)
 		new_monster.connect('targeted', self, 'set_target', [ name, 'monster' ])
 		get_node(zone + '/character').add_child(new_monster)
 	
-func add_character(name, title, type, x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest):
+func add_character(name, title, type, x, y, gender, body, armor, head, weapon, haircolor, hairstyle, zone, villan, shop, quest, sounds):
 	if get_node(zone + '/character'):
 		var new_character = character_scene.instance()
 		new_character.set_name(name)
-		new_character.set_character(x, y, title, type, gender, body, armor, head, weapon, haircolor, hairstyle, villan, shop, quest)
+		new_character.set_character(x, y, title, type, gender, body, armor, head, weapon, haircolor, hairstyle, villan, shop, quest, sounds)
 		new_character.connect('targeted', self, 'set_target', [ name, type ])
 		new_character.connect('open_shop', self, 'get_shop_inventory', [ shop ])
 		get_node(zone + '/character').add_child(new_character)
@@ -494,19 +512,37 @@ func _process(delta):
 							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
 							_send({'action': 'getmonster', 'name': event['name']})
+							
+					elif event['type'] == 'monsterface':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).face(event['direction'])
+						else:
+							_send({'action': 'getmonster', 'name': event['name']})
 						
 					elif event['type'] == 'playermove':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
 							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
 							_send({'action': 'getplayer', 'name': event['name']})
-					
+							
+					elif event['type'] == 'playerface':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).face(event['direction'])
+						else:
+							_send({'action': 'getplayer', 'name': event['name']})
+							
 					elif event['type'] == 'npcmove':
 						if get_node(event['zone'] + '/character').has_node(event['name']):
 							get_node(event['zone'] + '/character/' + event['name']).go(event['direction'], event['start'], event['end'])
 						else:
 							_send({'action': 'getnpc', 'name': event['name']})
-					
+							
+					elif event['type'] == 'npcface':
+						if get_node(event['zone'] + '/character').has_node(event['name']):
+							get_node(event['zone'] + '/character/' + event['name']).face(event['direction'])
+						else:
+							_send({'action': 'getnpc', 'name': event['name']})
+							
 					elif event['type'] == 'addmonster':
 						
 						add_monster(event['name'],
@@ -514,7 +550,8 @@ func _process(delta):
 									event['x'], 
 									event['y'], 
 									event['source'], 
-									event['zone'])
+									event['zone'],
+									event['sounds'])
 					
 					elif event['type'] == 'addplayer':
 						
@@ -533,7 +570,8 @@ func _process(delta):
 									  event['zone'],
 									  false,
 									  false,
-									  false)
+									  false,
+									  event['sounds'])
 									
 					elif event['type'] == 'addnpc':
 						
@@ -552,7 +590,8 @@ func _process(delta):
 									  event['zone'],
 									  event['villan'],
 									  event['shop'],
-									  event['quest'])
+									  event['quest'],
+									  event['sounds'])
 					
 					elif event['type'] == 'addcontainer':
 						add_container(event['name'], 
@@ -798,10 +837,13 @@ func _on_inventory_item_action(index, item_name):
 		_send({'action': 'equip', 'item': item_name })
 	elif index == 1:
 		_send({'action': 'drop', 'item': item_name })
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface1')
 	elif index == 2:
 		_send({'action': 'use', 'item': item_name })
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
 	elif index == 3:
 		_send({'action': 'unequip', 'item': item_name })
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
 	
 
 # Login Process
@@ -968,9 +1010,8 @@ func _on_ContainerItemList_item_rmb_selected( index, atpos ):
 func _on_container_inventory_item_action(index, container_name, item_name):
 	if index == 0:
 		_send({'action': 'takecontaineritem', 'name': container_name, 'item_name': item_name })
-
-
-
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
+		
 func _on_ShopItemList_item_rmb_selected( index, atpos ):
 	var item = get_node("ui/ShopInventory/ShopItemList").get_item_metadata(index)
 	var item_name = item['name']
@@ -985,7 +1026,8 @@ func _on_ShopItemList_item_rmb_selected( index, atpos ):
 func _on_shop_inventory_item_action(index, shop_name, item_name):
 	if index == 0:
 		_send({'action': 'buyshopitem', 'name': shop_name, 'item_name': item_name })
-
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
+		
 func _on_ShopInventoryCloseButton_pressed():
 	get_node("ui/ShopInventory").hide()
 
@@ -1020,6 +1062,7 @@ func _on_AbilityItemList_item_rmb_selected( index, atpos ):
 func _on_shop_player_inventory_item_action(index, shop_name, item_name):
 	if index == 0:
 		_send({'action': 'sellitem', 'shop_name': shop_name, 'item_name': item_name })
+		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
 		
 func cleanup_effect(sig, foo, name, target):
 	get_node(player_zone + '/character/' + target + '/' + name).queue_free()

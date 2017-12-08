@@ -1,7 +1,56 @@
-[gd_scene load_steps=17 format=1]
+[gd_scene load_steps=67 format=1]
 
 [ext_resource path="res://Monster.gd" type="Script" id=1]
 [ext_resource path="res://client_data/LPC Base Assets/sprites/monsters/eyeball.png" type="Texture" id=2]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/beetle/bite-small.wav" type="Sample" id=3]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/beetle/bite-small2.wav" type="Sample" id=4]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/beetle/bite-small3.wav" type="Sample" id=5]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr1.wav" type="Sample" id=6]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr10.wav" type="Sample" id=7]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr11.wav" type="Sample" id=8]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr12.wav" type="Sample" id=9]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr13.wav" type="Sample" id=10]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr14.wav" type="Sample" id=11]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr15.wav" type="Sample" id=12]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr2.wav" type="Sample" id=13]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr3.wav" type="Sample" id=14]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr4.wav" type="Sample" id=15]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr5.wav" type="Sample" id=16]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr6.wav" type="Sample" id=17]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr7.wav" type="Sample" id=18]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr8.wav" type="Sample" id=19]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/gutteral beast/mnstr9.wav" type="Sample" id=20]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random1.wav" type="Sample" id=21]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random2.wav" type="Sample" id=22]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random3.wav" type="Sample" id=23]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random4.wav" type="Sample" id=24]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random5.wav" type="Sample" id=25]
+[ext_resource path="res://client_data/RPG Sound Pack/misc/random6.wav" type="Sample" id=26]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade1.wav" type="Sample" id=27]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade10.wav" type="Sample" id=28]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade11.wav" type="Sample" id=29]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade12.wav" type="Sample" id=30]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade13.wav" type="Sample" id=31]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade14.wav" type="Sample" id=32]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade15.wav" type="Sample" id=33]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade2.wav" type="Sample" id=34]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade3.wav" type="Sample" id=35]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade4.wav" type="Sample" id=36]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade5.wav" type="Sample" id=37]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade6.wav" type="Sample" id=38]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade7.wav" type="Sample" id=39]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade8.wav" type="Sample" id=40]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/shade/shade9.wav" type="Sample" id=41]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime1.wav" type="Sample" id=42]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime10.wav" type="Sample" id=43]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime2.wav" type="Sample" id=44]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime3.wav" type="Sample" id=45]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime4.wav" type="Sample" id=46]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime5.wav" type="Sample" id=47]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime6.wav" type="Sample" id=48]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime7.wav" type="Sample" id=49]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime8.wav" type="Sample" id=50]
+[ext_resource path="res://client_data/RPG Sound Pack/NPC/slime/slime9.wav" type="Sample" id=51]
 
 [sub_resource type="Animation" id=1]
 
@@ -222,6 +271,303 @@ custom_solver_bias = 0.0
 radius = 10.0
 height = 20.0
 
+[sub_resource type="SampleLibrary" id=15]
+
+samples/bite-small = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 3 )
+}
+samples/bite-small2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 4 )
+}
+samples/bite-small3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 5 )
+}
+samples/mnstr1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 6 )
+}
+samples/mnstr10 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 7 )
+}
+samples/mnstr11 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 8 )
+}
+samples/mnstr12 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 9 )
+}
+samples/mnstr13 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 10 )
+}
+samples/mnstr14 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 11 )
+}
+samples/mnstr15 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 12 )
+}
+samples/mnstr2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 13 )
+}
+samples/mnstr3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 14 )
+}
+samples/mnstr4 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 15 )
+}
+samples/mnstr5 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 16 )
+}
+samples/mnstr6 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 17 )
+}
+samples/mnstr7 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 18 )
+}
+samples/mnstr8 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 19 )
+}
+samples/mnstr9 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 20 )
+}
+samples/random1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 21 )
+}
+samples/random2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 22 )
+}
+samples/random3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 23 )
+}
+samples/random4 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 24 )
+}
+samples/random5 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 25 )
+}
+samples/random6 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 26 )
+}
+samples/shade1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 27 )
+}
+samples/shade10 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 28 )
+}
+samples/shade11 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 29 )
+}
+samples/shade12 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 30 )
+}
+samples/shade13 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 31 )
+}
+samples/shade14 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 32 )
+}
+samples/shade15 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 33 )
+}
+samples/shade2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 34 )
+}
+samples/shade3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 35 )
+}
+samples/shade4 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 36 )
+}
+samples/shade5 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 37 )
+}
+samples/shade6 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 38 )
+}
+samples/shade7 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 39 )
+}
+samples/shade8 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 40 )
+}
+samples/shade9 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 41 )
+}
+samples/slime1 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 42 )
+}
+samples/slime10 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 43 )
+}
+samples/slime2 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 44 )
+}
+samples/slime3 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 45 )
+}
+samples/slime4 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 46 )
+}
+samples/slime5 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 47 )
+}
+samples/slime6 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 48 )
+}
+samples/slime7 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 49 )
+}
+samples/slime8 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 50 )
+}
+samples/slime9 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 51 )
+}
+
 [node name="Monster" type="Node2D"]
 
 script/script = ExtResource( 1 )
@@ -352,6 +698,17 @@ max_lines_visible = -1
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="SamplePlayer2D" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 15 )
+config/pitch_random = 0.0
 
 [connection signal="tween_complete" from="Tween" to="." method="_on_Tween_tween_complete"]
 
