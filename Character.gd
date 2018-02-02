@@ -265,10 +265,6 @@ func go(dir, start, end):
 	get_node("weapon/AnimationPlayer").play("walk_" + direction)
 	get_node("os_sword").hide()
 	get_node("os_spear").hide()
-	#get_node("os_sword").show()
-	#get_node("os_sword/AnimationPlayer").play("walk_" + direction)
-	#get_node("os_spear").show()
-	#get_node("os_spear/AnimationPlayer").play("walk_" + direction)
 	get_node("ammo/AnimationPlayer").play("walk_" + direction)
 	
 func face(set_direction):
@@ -287,10 +283,6 @@ func wait():
 	get_node("weapon/AnimationPlayer").play("wait_" + direction)
 	get_node("os_sword").hide()
 	get_node("os_spear").hide()
-	#get_node("os_sword").show()
-	#get_node("os_sword/AnimationPlayer").play("wait_" + direction)
-	#get_node("os_spear").show()
-	#get_node("os_spear/AnimationPlayer").play("wait_" + direction)
 	get_node("ammo/AnimationPlayer").play("wait_" + direction)
 
 func thrust(hit):

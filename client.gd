@@ -220,10 +220,10 @@ func refresh(data):
 	
 func _send(data):
 
-	var ready_data = data.to_json() + "\r\n"
+	var ready_data = JSON.print(data) + "\r\n"
 	
 	if client.get_status() == 2:
-		client.put_utf8_string(ready_data)
+		client.put_data(ready_data.to_utf8())
 	else:
 		print("Not connected")
 
@@ -439,14 +439,15 @@ func attack():
 	
 func _process(delta):
 	
-	if client.is_connected():
+	if client.is_connected_to_host():
 		var input_data = ""
-		if client.get_available_bytes() > 0:
+		while client.get_available_bytes() > 0:
 			input_data += client.get_string(client.get_available_bytes())
 		
 		var data = {}
-		data.parse_json(input_data)
-
+		if not input_data.empty():
+			data = JSON.parse(input_data).get_result()
+			
 		if not data.empty():
 			if data['type'] == 'authenticationfailed':
 				print(data)
@@ -456,7 +457,7 @@ func _process(delta):
 				if get_node("ui/Login").is_visible():
 					get_node("ui/Login").hide()
 					
-				if get_node("ui/CharacterCreation").is_hidden():
+				if not get_node("ui/CharacterCreation").is_visible():
 					get_node("ui/CharacterCreation").popup_centered()
 				
 			elif data['type'] == 'entergame':
@@ -870,7 +871,7 @@ func set_playeroptions(data):
 		get_node("ui/CharacterCreation/SelectClass").set_item_metadata(idx,meta)
 		idx += 1
 	
-	var idx = 0
+	idx = 0
 	for c in data['characters']:
 		var meta = data['characters'][c]
 		var title = data['characters'][c]['title']
@@ -884,7 +885,7 @@ func try_connect():
 	
 	print("Trying to connect to %s:%s" % [ip,port])
 
-	client.connect(ip,int(port))
+	client.connect_to_host(ip,int(port))
 	
 	while client.get_status() == 1:
 		# Wait for connection to complete or fail
@@ -1010,7 +1011,7 @@ func _on_ContainerItemList_item_rmb_selected( index, atpos ):
 func _on_container_inventory_item_action(index, container_name, item_name):
 	if index == 0:
 		_send({'action': 'takecontaineritem', 'name': container_name, 'item_name': item_name })
-		get_node("ui/MenuBar/SamplePlayer2D").play('interface2')
+		get_node("ui/MenuBar/SamplePlayer2D").play('beads')
 		
 func _on_ShopItemList_item_rmb_selected( index, atpos ):
 	var item = get_node("ui/ShopInventory/ShopItemList").get_item_metadata(index)
